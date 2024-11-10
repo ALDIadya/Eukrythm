@@ -39,6 +39,8 @@ def main():
             UI.rythm_necklace_menu(screen, width = rnm_width, height = rnm_height, buttons = rythm_nl_buttons, mouse_pos = mouse_pos, click = click)
             UI.sampler_menu(screen, width = rect_width, height = rect_height, buttons = sampler_buttons, mouse_pos=mouse_pos, click=click)
             
+
+
         pygame.display.flip()
         clock.tick(60)
 

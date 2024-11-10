@@ -80,6 +80,13 @@ def sampler_menu(screen, width, height, buttons, mouse_pos=None, click=False): #
             pygame.draw.line(screen, (symbol_color), (x + 24, y + 10), (x + 24 + 11, y + 50), width = 2)
             pygame.draw.line(screen, (symbol_color), (x + 42, y + 10), (x + 42, y + 50), width = 3)
             pygame.draw.line(screen, (symbol_color), (x + 49, y + 10), (x + 49, y + 50), width = 3)
+            
+            #fixálni!!!!!!!
+            pygame.mixer.music.load("Euk1.wav") 
+            if button.active:
+                pygame.mixer.music.play(loops=0)
+            if not button.active:
+                pygame.mixer.music.pause()
 
         if i == 1: #per jel
             upload_sign_points = [(x + 20, y + 50), (x + 30, y + 10), (x + 40, y + 50)]
@@ -186,4 +193,5 @@ def rythm_necklace_menu(screen, width, height, buttons, mouse_pos=None, click=Fa
     pygame.draw.rect(screen, dark, (menu_x, menu_y, rect_w, rect_h), border_radius = 20, width = 5)
     
     return buttons
+
 
