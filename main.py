@@ -1,5 +1,6 @@
 import UI
 import pygame
+import math
 
 def main():
 
@@ -22,6 +23,8 @@ def main():
     rythm_nl_buttons = []
     sampler_buttons = []   
 
+    step_input = 2
+
     while run:
         mouse_pos = pygame.mouse.get_pos()
         click = False
@@ -35,10 +38,13 @@ def main():
                 click = True
             
             UI.sampler_position(screen, rect_width, rect_height, note_buttons, mouse_pos, click)
-            UI.rythm_necklace(screen, width = crcl_width, height = crcl_height, user_input = 11, circles = circles, mouse_pos = mouse_pos, click = click)
-            UI.rythm_necklace_menu(screen, width = rnm_width, height = rnm_height, buttons = rythm_nl_buttons, mouse_pos = mouse_pos, click = click)
+            new_step_num = UI.rythm_necklace_menu(screen, width = rnm_width, height = rnm_height, buttons = rythm_nl_buttons, mouse_pos = mouse_pos, click = click, step_input=step_input)
+            step_input = new_step_num
+            UI.rythm_necklace(screen, width = crcl_width, height = crcl_height, dot_count = step_input, mouse_pos = mouse_pos, click = click)
             UI.sampler_menu(screen, width = rect_width, height = rect_height, buttons = sampler_buttons, mouse_pos=mouse_pos, click=click)
+
             
+                
 
 
         pygame.display.flip()
