@@ -1,30 +1,26 @@
 import UI
 import pygame
 
-def active_note_button():
-    pass
-
 def main():
 
     pygame.init()
-    
+        
     run = True
     pattern = False
     active = False
 
     clock = pygame.time.Clock()
     screen = UI.create_screen()
+    pygame.display.set_caption("Eukrythm")
 
     crcl_width, crcl_height = 885, 310
-    rnm_width, rnm_height = 670, 40
+    rnm_width, rnm_height = 670, 40 #rythm necklace menu
+    rect_width, rect_height = 120, 120
 
     note_buttons = []
-    rect_width, rect_height = 120, 120
-    for row in range(2):
-        for col in range(3):
-            x = rect_width + 15 + col * 90
-            y = rect_height + 15 + row * 90
-            note_buttons.append({"x": x, "y": y, "active": False})
+    circles = []
+    rythm_nl_buttons = []
+    sampler_buttons = []   
 
     while run:
         mouse_pos = pygame.mouse.get_pos()
@@ -34,14 +30,14 @@ def main():
             if event.type == pygame.QUIT:
                 pattern = True
                 run = False
-            UI.rythm_necklace(screen, crcl_width, crcl_height, 11)
-            UI.note_menu(screen, rect_width, rect_height)
-            UI.rythm_necklace_menu(screen, rnm_width, rnm_height)
         
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 click = True
             
-            note_buttons = UI.note_position(screen, rect_width, rect_height, note_buttons, mouse_pos, click)
+            UI.sampler_position(screen, rect_width, rect_height, note_buttons, mouse_pos, click)
+            UI.rythm_necklace(screen, width = crcl_width, height = crcl_height, user_input = 11, circles = circles, mouse_pos = mouse_pos, click = click)
+            UI.rythm_necklace_menu(screen, width = rnm_width, height = rnm_height, buttons = rythm_nl_buttons, mouse_pos = mouse_pos, click = click)
+            UI.sampler_menu(screen, width = rect_width, height = rect_height, buttons = sampler_buttons, mouse_pos=mouse_pos, click=click)
             
         pygame.display.flip()
         clock.tick(60)
