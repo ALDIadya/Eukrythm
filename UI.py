@@ -1,5 +1,7 @@
 import pygame
 import math
+import functions
+
 
 class Button:
     def __init__(self, x, y, active, width, height):
@@ -154,10 +156,13 @@ def rythm_necklace_menu(screen, width, height, buttons, step_input, mouse_pos=No
     menu_x = width
     menu_y = height
             
-    #szövegezés
-    font = pygame.font.SysFont(None, 24)
-    texts = ["Steps", "Events", "Start", "Save"]
-    text_num = step_input
+    #szövegezése a Steps menünek
+    step_menu_font = pygame.font.SysFont(None, 24)
+    step_menu_texts = ["Steps", "Events", "Start", "Save"]
+    step_menu_step_number = step_input
+
+ 
+
 
     #menü
     if not buttons:
@@ -185,20 +190,22 @@ def rythm_necklace_menu(screen, width, height, buttons, step_input, mouse_pos=No
                         border_bottom_right_radius = 10, 
                         border_bottom_left_radius=10)
         if i == 0:
-            if click and (x <= mouse_pos[0] <= x + w) and (y <= mouse_pos[1] <= y + h):
-                if mouse_pos[0] < x + w / 2 and text_num > 1:
-                    text_num -= 1
-                
-                if mouse_pos[0] > x + w / 2:
-                    text_num += 1
-                pygame.draw.rect(screen, (0, 0, 0), (menu_x, menu_y, border_width, border_height), border_radius = 20) 
-                    
-            text_surface = font.render(f"-   {text_num}   +", True, light)
+            text_num = functions.step_count(step_menu_step_number, mouse_pos, click, x, y, w, h)
+            pygame.draw.rect(screen, (0, 0, 0), (menu_x, menu_y + 100, border_width, border_height), border_radius = 20)      
+            text_surface = step_menu_font.render(f"-   {text_num}   +", True, light)
             text_rect = text_surface.get_rect(center=(menu_x + i * (w + 10) + w / 2, menu_y + h / 2))
             screen.blit(text_surface, text_rect)
+
+        #megjavítani!!!!!!
+        elif i == 1:
+                text_num = functions.step_count(step_menu_step_number, mouse_pos, click, x, y, w, h)
+                relative_primes = functions.relative_primes(text_num)
+                text_surface = step_menu_font.render(f"-   {relative_primes}   +", True, light)
+                text_rect = text_surface.get_rect(center=(menu_x + i * (w + 10) + w / 2, menu_y + h / 2))
+                screen.blit(text_surface, text_rect)
                 
         else:
-            text_surface = font.render(texts[i], True, light)
+            text_surface = step_menu_font.render(step_menu_texts[i], True, light)
             text_rect = text_surface.get_rect(center=(menu_x + i * (w + 10) + w / 2, menu_y + h / 2))
             screen.blit(text_surface, text_rect)
    
