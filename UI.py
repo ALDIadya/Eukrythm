@@ -198,9 +198,8 @@ def rythm_necklace_menu(screen, width, height, buttons, step_input, mouse_pos=No
 
         #megjavítani!!!!!!
         elif i == 1:
-                text_num = functions.step_count(step_menu_step_number, mouse_pos, click, x, y, w, h)
-                relative_primes = functions.relative_primes(text_num)
-                text_surface = step_menu_font.render(f"-   {relative_primes}   +", True, light)
+                list_of_relative_primes = functions.relative_prime_count(step_number = step_menu_step_number, mouse_pos=mouse_pos, click=click, x=x, y=y, w=w, h=h)
+                text_surface = step_menu_font.render(f"-   {list_of_relative_primes}   +", True, light)
                 text_rect = text_surface.get_rect(center=(menu_x + i * (w + 10) + w / 2, menu_y + h / 2))
                 screen.blit(text_surface, text_rect)
                 

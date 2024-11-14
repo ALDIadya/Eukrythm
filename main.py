@@ -1,6 +1,5 @@
 import UI
 import pygame
-import math
 
 def main():
 
@@ -23,7 +22,7 @@ def main():
     rythm_nl_buttons = []
     sampler_buttons = []   
 
-    step_input = 2
+    step_input = 3
 
     while run:
         mouse_pos = pygame.mouse.get_pos()
