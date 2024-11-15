@@ -143,7 +143,7 @@ def rythm_necklace(screen, width, height, dot_count, mouse_pos=None, click=False
 
     return
 
-def rythm_necklace_menu(screen, width, height, buttons, step_input, mouse_pos=None, click=False):
+def rythm_necklace_menu(screen, width, height, buttons, step_input, relative_prime_count_index, mouse_pos=None, click=False):
     #színek
     dark = (94, 80, 63)
     light = (234, 224, 213)
@@ -161,8 +161,8 @@ def rythm_necklace_menu(screen, width, height, buttons, step_input, mouse_pos=No
     step_menu_texts = ["Steps", "Events", "Start", "Save"]
     step_menu_step_number = step_input
 
- 
-
+    #Eventek számozása
+    relative_prime_count_index = relative_prime_count_index
 
     #menü
     if not buttons:
@@ -198,8 +198,9 @@ def rythm_necklace_menu(screen, width, height, buttons, step_input, mouse_pos=No
 
         #megjavítani!!!!!!
         elif i == 1:
-                list_of_relative_primes = functions.relative_prime_count(step_number = step_menu_step_number, mouse_pos=mouse_pos, click=click, x=x, y=y, w=w, h=h)
-                text_surface = step_menu_font.render(f"-   {list_of_relative_primes}   +", True, light)
+                relative_primes = functions.relative_primes(step_menu_step_number)
+                index_of_relative_prime = functions.relative_prime_count(step_menu_step_number, relative_prime_count_index, mouse_pos, click, x, y, w, h)
+                text_surface = step_menu_font.render(f"-   {index_of_relative_prime}   +", True, light)
                 text_rect = text_surface.get_rect(center=(menu_x + i * (w + 10) + w / 2, menu_y + h / 2))
                 screen.blit(text_surface, text_rect)
                 

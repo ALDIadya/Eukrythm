@@ -28,15 +28,15 @@ def relative_primes(step_number):
             relative_primes.append(i)
     return relative_primes
 
-def relative_prime_count(step_number, mouse_pos, click, x, y, w, h):
+def relative_prime_count(step_number, relative_prime_count_index, mouse_pos, click, x, y, w, h):
     relative_prime = relative_primes(step_number)
-    index = 0
-    
-    if click and (x <= mouse_pos[0] <= x + w) and (y <= mouse_pos[1] <= y + h):
-        if mouse_pos[0] < x + w / 2 and step_number >= 3:
-            index -= 1
-        if mouse_pos[0] > x + w / 2 and step_number <= 12:
-            index += 1
+    index = relative_prime_count_index
 
-    if 0 <= index < len(relative_prime):
-        return relative_prime[index]
+    if click and (x <= mouse_pos[0] <= x + w) and (y <= mouse_pos[1] <= y + h):
+        if mouse_pos[0] < x + w / 2 and index > 0:
+            index -= 1
+
+        if mouse_pos[0] > x + w / 2 and index < (len(relative_prime)-1):
+            index += 1
+            
+    return relative_prime[index]
