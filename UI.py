@@ -161,9 +161,6 @@ def rythm_necklace_menu(screen, width, height, buttons, step_input, relative_pri
     step_menu_texts = ["Steps", "Events", "Start", "Save"]
     step_menu_step_number = step_input
 
-    #Eventek számozása
-    relative_prime_count_index = relative_prime_count_index
-
     #menü
     if not buttons:
         #menü méret
@@ -182,15 +179,13 @@ def rythm_necklace_menu(screen, width, height, buttons, step_input, relative_pri
 
         if click and (x <= mouse_pos[0] <= x + w) and (y <= mouse_pos[1] <= y + h):
             button.active = not button.active #állapot váltása
-    
-            #színek beállítása az aktív állapot szerint
 
         pygame.draw.rect(screen, dark, (x, y, w, h), 
                         border_top_left_radius = 20 if i == 0 else 0, 
                         border_bottom_right_radius = 10, 
                         border_bottom_left_radius=10)
         if i == 0:
-            text_num = functions.step_count(step_menu_step_number, mouse_pos, click, x, y, w, h)
+            text_num = functions.step_count(step_menu_step_number, mouse_pos, click, button)
             pygame.draw.rect(screen, (0, 0, 0), (menu_x, menu_y + 100, border_width, border_height), border_radius = 20)      
             text_surface = step_menu_font.render(f"-   {text_num}   +", True, light)
             text_rect = text_surface.get_rect(center=(menu_x + i * (w + 10) + w / 2, menu_y + h / 2))
@@ -198,9 +193,7 @@ def rythm_necklace_menu(screen, width, height, buttons, step_input, relative_pri
 
         #megjavítani!!!!!!
         elif i == 1:
-                relative_primes = functions.relative_primes(step_menu_step_number)
-                index_of_relative_prime = functions.relative_prime_count(step_menu_step_number, relative_prime_count_index, mouse_pos, click, x, y, w, h)
-                text_surface = step_menu_font.render(f"-   {index_of_relative_prime}   +", True, light)
+                text_surface = step_menu_font.render(f"-   {relative_prime_count_index}   +", True, light)
                 text_rect = text_surface.get_rect(center=(menu_x + i * (w + 10) + w / 2, menu_y + h / 2))
                 screen.blit(text_surface, text_rect)
                 
