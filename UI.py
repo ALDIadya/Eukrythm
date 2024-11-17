@@ -152,7 +152,7 @@ def rythm_necklace_menu(screen, width, height, buttons, step_input, relative_pri
     border_width = 433
     border_height = 490
 
-    #menü elhelyezése   
+    # #menü elhelyezése   
     menu_x = width
     menu_y = height
             
@@ -161,17 +161,17 @@ def rythm_necklace_menu(screen, width, height, buttons, step_input, relative_pri
     step_menu_texts = ["Steps", "Events", "Start", "Save"]
     step_menu_step_number = step_input
 
-    #menü
-    if not buttons:
-        #menü méret
-        width = (border_width) / 5
-        height = (border_height) / 10
+    # #menü
+    # if not buttons:
+    #     #menü méret
+    #     width = (border_width) / 5
+    #     height = (border_height) / 10
 
-        #gombok létrehozása
-        for i in range(4): 
-            button_x = menu_x + i * (width + 10)
-            button_y = menu_y
-            buttons.append(Button(x=button_x, y=button_y, active=False, width=width, height=height))
+    #     #gombok létrehozása
+    #     for i in range(4): 
+    #         button_x = menu_x + i * (width + 10)
+    #         button_y = menu_y
+    #         buttons.append(Button(x=button_x, y=button_y, active=False, width=width, height=height))
     
     #gombok megszámozása a funkciók hozzárendeléséhez
     for i, button in enumerate(buttons):

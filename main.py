@@ -21,7 +21,7 @@ def main():
 
     note_buttons = []
     circles = []
-    rythm_nl_buttons = functions.r_necklace_button_create(width=rect_width, height=rect_height) 
+    rythm_nl_buttons = functions.r_necklace_button_create(width=rnm_width, height=rnm_height) 
     sampler_buttons = []
     relative_primes = []
 
@@ -40,7 +40,7 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 click = True
             
-            relative_prime_count_index = functions.relative_prime_count(step_input, relative_prime_count_index, mouse_pos, click, sampler_buttons[1])
+            relative_prime_count_index = functions.relative_prime_count(step_input, relative_prime_count_index, mouse_pos, click, rythm_nl_buttons[1])
             UI.sampler_position(screen, rect_width, rect_height, note_buttons, mouse_pos, click)
             new_step_num = UI.rythm_necklace_menu(screen, width = rnm_width, height = rnm_height, buttons = rythm_nl_buttons, mouse_pos = mouse_pos, click = click, step_input=step_input, relative_prime_count_index = relative_prime_count_index)
             step_input = new_step_num

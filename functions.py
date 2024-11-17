@@ -35,8 +35,8 @@ def relative_primes(step_number):
 def relative_prime_count(step_number, relative_prime_count_index, mouse_pos, click, button):
     relative_prime = relative_primes(step_number)
     index = relative_prime_count_index
-    width = (button.width) / 5
-    height = (button.height) / 10
+    width = (button.width)
+    height = (button.height)
 
     if click and (button.x <= mouse_pos[0] <= button.x + width) and (button.y <= mouse_pos[1] <= button.y + height):
         if mouse_pos[0] < button.x + width / 2 and index > 0:
