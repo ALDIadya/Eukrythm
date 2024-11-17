@@ -1,7 +1,5 @@
 import pygame
-import math
 import functions
-
 
 class Button:
     def __init__(self, x, y, active, width, height):
@@ -10,6 +8,13 @@ class Button:
         self.active = active
         self.width = width
         self.height = height
+
+class Circle:
+    def __init__(self, x, y, active, radius):
+        self.x = x
+        self.y = y
+        self.active = active
+        self.radius = radius
 
 def create_screen(): 
     screen_width = 1200
@@ -105,7 +110,7 @@ def sampler_menu(screen, width, height, buttons, mouse_pos=None, click=False): #
 
 def rythm_circle(screen, width, height, dot_count, mouse_pos=None, click=False): #kör rajza 
     pygame.draw.circle(screen, (234, 224, 213), [(width), (height)], 150, width = 3)
-    
+
     return
 
 def rythm_necklace_menu(screen, width, height, buttons, step_input, chosen_relative_prime, mouse_pos=None, click=False):

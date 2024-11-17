@@ -32,7 +32,7 @@ def relative_primes(step_number):
             relative_primes.append(i)
     return relative_primes
 
-def relative_prime_count(step_number, relative_prime_count_index, mouse_pos, click, button):
+def relative_prime_index(step_number, relative_prime_count_index, mouse_pos, click, button):
     relative_prime = relative_primes(step_number)
     index = relative_prime_count_index
     width = (button.width)
@@ -89,7 +89,7 @@ def small_rythm_circles(screen, step_number, width, height, mouse_pos, click):
         x = width + int(radius * math.cos(angle_rad))
         y = height + int(radius * math.sin(angle_rad))  
 
-        circles.append(UI.Button(x=x, y=y, active=False, width=width, height=height))
+        circles.append(UI.Circle(x=x, y=y, active=False, radius=small_radius))
 
     #kisebb körök kirajzolása
     for circle in circles:
@@ -103,3 +103,18 @@ def small_rythm_circles(screen, step_number, width, height, mouse_pos, click):
         pygame.draw.circle(screen, color, (x, y), small_radius)
 
     return circles
+
+def event_marker(screen, step_number, mouse_pos, click, circles):
+    list_counter = len(relative_primes(step_number))
+    chosen_circles = [] * list_counter
+    
+    for circle in circles:
+        if click and intersect(circle, mouse_pos):
+            chosen_circles.append(circle)
+            pygame.draw.circle(screen, (198, 172, 143), (circle.x, circle.y), circle.radius)
+
+    return chosen_circles
+
+def intersect(circle, mouse_pos):
+    distance = math.sqrt((circle.x - mouse_pos[0])**2 + (circle.y - mouse_pos[1])**2)
+    return distance <= circle.radius
