@@ -95,55 +95,20 @@ def sampler_menu(screen, width, height, buttons, mouse_pos=None, click=False): #
             upload_sign_points = [(x + 20, y + 50), (x + 30, y + 10), (x + 40, y + 50)]
             pygame.draw.polygon(screen, (symbol_color), upload_sign_points)
 
-        if i == 2:
-            pygame.draw.line(screen, symbol_color, (x + 20, y + 10), (x + 40, y + 50), width=5)  #bal felső-jobb alsó vonal
-            pygame.draw.line(screen, symbol_color, (x + 20, y + 50), (x + 40, y + 10), width=5)  #bal alsó-jobb felső vonal
+        if i == 2: #stop jel
+            pygame.draw.line(screen, symbol_color, (x + 18, y + 10), (x + 40, y + 50), width=4 )  #bal felső-jobb alsó vonal
+            pygame.draw.line(screen, symbol_color, (x + 18, y + 50), (x + 40, y + 10), width=4)  #bal alsó-jobb felső vonal
 
         
 
     return buttons
 
-def rythm_necklace(screen, width, height, dot_count, mouse_pos=None, click=False): #kör rajza 
-    #színek
-    dark = (94, 80, 63)
-    light = (234, 224, 213)
+def rythm_circle(screen, width, height, dot_count, mouse_pos=None, click=False): #kör rajza 
+    pygame.draw.circle(screen, (234, 224, 213), [(width), (height)], 150, width = 3)
     
-    #nagy kör
-    radius = 150
-    pygame.draw.circle(screen, light, [(width), (height)], radius, width = 3)
-    
-    #szög kiszámításához
-    angle_step = 360 / dot_count
-
-    #kis kör sugár
-    small_radius = 15
-
-    #kisebb körök inicializálása
-    circles = []
-    for i in range(dot_count):
-        #szög átváltása radiánra
-        angle_rad = math.radians(i * angle_step - 90)
-
-        #kisebb kör középpontjainak koordinálása
-        x = width + int(radius * math.cos(angle_rad))
-        y = height + int(radius * math.sin(angle_rad))  
-
-        circles.append(Button(x=x, y=y, active=False, width=width, height=height))
-
-    #kisebb körök kirajzolása
-    for circle in circles:
-        x, y = circle.x, circle.y
-
-        if click and (x - small_radius <= mouse_pos[0] <= x + small_radius) and (y - small_radius <= mouse_pos[1] <= y + small_radius):
-            circle.active = not circle.active  #állapot váltása
-        
-        #szín beállítása az aktív állapot szerint
-        color = light if circle.active else dark
-        pygame.draw.circle(screen, color, (x, y), small_radius)  
-
     return
 
-def rythm_necklace_menu(screen, width, height, buttons, step_input, relative_prime_count_index, mouse_pos=None, click=False):
+def rythm_necklace_menu(screen, width, height, buttons, step_input, chosen_relative_prime, mouse_pos=None, click=False):
     #színek
     dark = (94, 80, 63)
     light = (234, 224, 213)
@@ -160,18 +125,6 @@ def rythm_necklace_menu(screen, width, height, buttons, step_input, relative_pri
     step_menu_font = pygame.font.SysFont(None, 24)
     step_menu_texts = ["Steps", "Events", "Start", "Save"]
     step_menu_step_number = step_input
-
-    # #menü
-    # if not buttons:
-    #     #menü méret
-    #     width = (border_width) / 5
-    #     height = (border_height) / 10
-
-    #     #gombok létrehozása
-    #     for i in range(4): 
-    #         button_x = menu_x + i * (width + 10)
-    #         button_y = menu_y
-    #         buttons.append(Button(x=button_x, y=button_y, active=False, width=width, height=height))
     
     #gombok megszámozása a funkciók hozzárendeléséhez
     for i, button in enumerate(buttons):
@@ -193,7 +146,7 @@ def rythm_necklace_menu(screen, width, height, buttons, step_input, relative_pri
 
         #megjavítani!!!!!!
         elif i == 1:
-                text_surface = step_menu_font.render(f"-   {relative_prime_count_index}   +", True, light)
+                text_surface = step_menu_font.render(f"-   {chosen_relative_prime}   +", True, light)
                 text_rect = text_surface.get_rect(center=(menu_x + i * (w + 10) + w / 2, menu_y + h / 2))
                 screen.blit(text_surface, text_rect)
                 

@@ -28,6 +28,7 @@ def main():
     step_input = 3
     relative_prime_count_index = 0
 
+
     while run:
         mouse_pos = pygame.mouse.get_pos()
         click = False
@@ -40,11 +41,18 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 click = True
             
+            relative_primes = functions.relative_primes(step_number=step_input)
             relative_prime_count_index = functions.relative_prime_count(step_input, relative_prime_count_index, mouse_pos, click, rythm_nl_buttons[1])
+            
+            if relative_prime_count_index > len(relative_primes):
+                relative_prime_count_index = 0
+            chosen_relative_prime = relative_primes[relative_prime_count_index]
             UI.sampler_position(screen, rect_width, rect_height, note_buttons, mouse_pos, click)
-            new_step_num = UI.rythm_necklace_menu(screen, width = rnm_width, height = rnm_height, buttons = rythm_nl_buttons, mouse_pos = mouse_pos, click = click, step_input=step_input, relative_prime_count_index = relative_prime_count_index)
+            new_step_num = UI.rythm_necklace_menu(screen, width = rnm_width, height = rnm_height, buttons = rythm_nl_buttons, mouse_pos = mouse_pos, click = click, step_input=step_input, chosen_relative_prime = chosen_relative_prime)
             step_input = new_step_num
-            UI.rythm_necklace(screen, width = crcl_width, height = crcl_height, dot_count = step_input, mouse_pos = mouse_pos, click = click)
+            UI.rythm_circle(screen, width = crcl_width, height = crcl_height, dot_count = step_input, mouse_pos = mouse_pos, click = click)
+            rythm_small_circles = functions.small_rythm_circles(screen=screen, step_number=step_input, width = crcl_width, height=crcl_height, mouse_pos=mouse_pos, click=click)
+            
             UI.sampler_menu(screen, width = rect_width, height = rect_height, buttons = sampler_buttons, mouse_pos=mouse_pos, click=click)
                
 

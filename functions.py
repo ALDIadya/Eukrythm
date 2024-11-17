@@ -1,4 +1,6 @@
 import UI
+import math
+import pygame
 
 def step_count(step_num, mouse_pos, click, button):
     if click and (button.x <= mouse_pos[0] <= button.x + button.width) and (button.y <= mouse_pos[1] <= button.y + button.height):
@@ -30,8 +32,6 @@ def relative_primes(step_number):
             relative_primes.append(i)
     return relative_primes
 
-
-#MEGJAVÍTANI!!!!
 def relative_prime_count(step_number, relative_prime_count_index, mouse_pos, click, button):
     relative_prime = relative_primes(step_number)
     index = relative_prime_count_index
@@ -67,3 +67,39 @@ def r_necklace_button_create(width, height):
 
     return buttons
     
+def small_rythm_circles(screen, step_number, width, height, mouse_pos, click):
+    dark = (94, 80, 63)
+    light = (234, 224, 213)
+
+    radius = 150
+    
+    #szög kiszámításához
+    angle_step = 360 / step_number
+
+    #kis kör sugár
+    small_radius = 15
+
+    #kisebb körök inicializálása
+    circles = []
+    for i in range(step_number):
+        #szög átváltása radiánra
+        angle_rad = math.radians(i * angle_step - 90)
+
+        #kisebb kör középpontjainak koordinálása
+        x = width + int(radius * math.cos(angle_rad))
+        y = height + int(radius * math.sin(angle_rad))  
+
+        circles.append(UI.Button(x=x, y=y, active=False, width=width, height=height))
+
+    #kisebb körök kirajzolása
+    for circle in circles:
+        x, y = circle.x, circle.y
+
+        if click and (x - small_radius <= mouse_pos[0] <= x + small_radius) and (y - small_radius <= mouse_pos[1] <= y + small_radius):
+            circle.active = not circle.active  #állapot váltása
+        
+        #szín beállítása az aktív állapot szerint
+        color = light if circle.active else dark
+        pygame.draw.circle(screen, color, (x, y), small_radius)
+
+    return circles
