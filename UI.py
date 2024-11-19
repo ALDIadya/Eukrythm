@@ -2,12 +2,13 @@ import pygame
 import functions
 
 class Button:
-    def __init__(self, x, y, active, width, height):
+    def __init__(self, x, y, active, width, height, color=(94, 80, 63)):
         self.x = x
         self.y = y
         self.active = active
         self.width = width
         self.height = height
+        self.color = color
 
 class Circle:
     def __init__(self, x, y, active, radius):
@@ -22,32 +23,14 @@ def create_screen():
     screen = pygame.display.set_mode((screen_width, screen_height))
     return screen
 
-def sampler_position(screen, width, height, buttons, mouse_pos=None, click=False): #nyomógombok rajza
-    #színek
-    dark = (94, 80, 63)
-    light = (234, 224, 213)
-    
+def sampler_position(screen, width, height, buttons): #nyomógombok rajza
     #keret
-    pygame.draw.rect(screen, (dark), ((width), (height), 290, 200), border_radius = 20, width = 3)
-    
-    #négyzetek kirajzolása 2 sorba, 3 oszlopba & állapot frissítése
-    if not buttons:
-        for row in range(2):
-            for col in range(3):
-                x = width + 15 + col * 90
-                y = height + 15 + row * 90
-                buttons.append(Button(x=x, y=y, active=False, width=width, height=height))
+    pygame.draw.rect(screen, (94, 80, 63), ((width), (height), 290, 200), border_radius = 20, width = 3)
 
     for button in buttons:
         x, y = button.x, button.y
 
-        #ellenőrizzük, hogy gombra kattintott-e a user
-        if click and x <= mouse_pos[0] <= x + 80 and y <= mouse_pos[1] <= y + 80:
-            button.active = not button.active
-
-        color = light if button.active else dark
-
-        pygame.draw.rect(screen, color, (x, y, 80, 80), border_radius=5)
+        pygame.draw.rect(screen, button.color, (x, y, 80, 80), border_radius=5)
    
     return buttons
 
@@ -90,11 +73,11 @@ def sampler_menu(screen, width, height, buttons, mouse_pos=None, click=False): #
             pygame.draw.line(screen, (symbol_color), (x + 49, y + 10), (x + 49, y + 50), width = 3)
             
             #ideiglenes - később módosítani
-            pygame.mixer.music.load("Euk1.wav") 
+            """pygame.mixer.music.load("Euk1.wav") 
             if button.active:
                 pygame.mixer.music.play(loops=0)
             if not button.active:
-                pygame.mixer.music.pause()
+                pygame.mixer.music.pause()"""
 
         if i == 1: #per jel
             upload_sign_points = [(x + 20, y + 50), (x + 30, y + 10), (x + 40, y + 50)]

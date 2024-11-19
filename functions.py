@@ -104,7 +104,7 @@ def small_rythm_circles(screen, step_number, width, height, mouse_pos, click):
 
     return circles
 
-def event_marker(screen, step_number, mouse_pos, click, circles):
+def event_marker(screen, step_number, mouse_pos, click, circles): #MEGJAVÍTANI!!!!!!
     list_counter = len(relative_primes(step_number))
     chosen_circles = [] * list_counter
     
@@ -118,3 +118,4 @@ def event_marker(screen, step_number, mouse_pos, click, circles):
 def intersect(circle, mouse_pos):
     distance = math.sqrt((circle.x - mouse_pos[0])**2 + (circle.y - mouse_pos[1])**2)
     return distance <= circle.radius
+
