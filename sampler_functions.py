@@ -1,7 +1,7 @@
 import pygame
 import UI
 
-def existing_sampler_buttons(screen, width, height, buttons, mouse_pos=None, click=False):
+def existing_sampler_buttons(screen, buttons, mouse_pos=None, click=False):
     #színek
     dark = (94, 80, 63)
     light = (234, 224, 213)
@@ -15,15 +15,9 @@ def existing_sampler_buttons(screen, width, height, buttons, mouse_pos=None, cli
 
         button.color = light if button.active else dark
 
-        # if i == 0:
-        #     #ideiglenes - később módosítani
-        #     pygame.mixer.music.load("Euk1.wav") 
-        #     if button.active:
-        #         pygame.mixer.music.play(loops=0)
-        #     if not button.active:
-        #         pygame.mixer.music.pause()
-
-        #pygame.draw.rect(screen, color, (x, y, 80, 80), border_radius=5)
+        if i == 0:
+        #ideiglenes - később módosítani
+            pygame.mixer.music.load("Euk1.wav") 
 
     return buttons
 
@@ -37,3 +31,11 @@ def empty_sampler_button_gen(width, height):
             buttons.append(UI.Button(x=x, y=y, active=False, width=width, height=height))
     
     return buttons
+
+def play_button(sampler_button, sampler_menu_button):
+    if sampler_menu_button[0].active and sampler_button[0].active:
+            pygame.mixer.music.play(loops=0)
+    if not (sampler_menu_button[0].active and sampler_button[0].active):
+            pygame.mixer.music.pause()
+
+    return

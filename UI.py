@@ -1,5 +1,5 @@
 import pygame
-import functions
+import rythm_nl_functions
 
 class Button:
     def __init__(self, x, y, active, width, height, color=(94, 80, 63)):
@@ -47,6 +47,10 @@ def sampler_menu(screen, width, height, buttons, mouse_pos=None, click=False): #
     w = 60
     h = 60
 
+    #fájl feltöltés text box
+    upload_butt_font = pygame.font.SysFont(None, 24)
+    upload_butt_texts = "Enter the file path of your music file: "
+
     #gombok létrehozása
     if not buttons:
         for x in menu_x:
@@ -72,18 +76,22 @@ def sampler_menu(screen, width, height, buttons, mouse_pos=None, click=False): #
             pygame.draw.line(screen, (symbol_color), (x + 42, y + 10), (x + 42, y + 50), width = 3)
             pygame.draw.line(screen, (symbol_color), (x + 49, y + 10), (x + 49, y + 50), width = 3)
             
-            #ideiglenes - később módosítani
-            """pygame.mixer.music.load("Euk1.wav") 
-            if button.active:
-                pygame.mixer.music.play(loops=0)
-            if not button.active:
-                pygame.mixer.music.pause()"""
-
-        if i == 1: #per jel
+        if i == 1: #upload
             upload_sign_points = [(x + 20, y + 50), (x + 30, y + 10), (x + 40, y + 50)]
             pygame.draw.polygon(screen, (symbol_color), upload_sign_points)
 
-        if i == 2: #stop jel
+            if button.active:
+                pygame.draw.rect(screen, (198, 172, 143), ((x-70), (y + 70), (w + 300), (h-20)), border_radius=15)
+                text_surface = upload_butt_font.render(f"{upload_butt_texts}", True, dark)
+                text_rect = text_surface.get_rect(center=(x + (w + 30), y + (h + 30)))
+                screen.blit(text_surface, text_rect)
+
+            else:
+                pygame.draw.rect(screen, (0, 0, 0), ((x-70), (y + 70), (w + 300), (h-20)))
+                    
+
+
+        if i == 2: #delete
             pygame.draw.line(screen, symbol_color, (x + 18, y + 10), (x + 40, y + 50), width=4 )  #bal felső-jobb alsó vonal
             pygame.draw.line(screen, symbol_color, (x + 18, y + 50), (x + 40, y + 10), width=4)  #bal alsó-jobb felső vonal
 
@@ -126,7 +134,7 @@ def rythm_necklace_menu(screen, width, height, buttons, step_input, chosen_relat
                         border_bottom_right_radius = 10, 
                         border_bottom_left_radius=10)
         if i == 0:
-            text_num = functions.step_count(step_menu_step_number, mouse_pos, click, button)
+            text_num = rythm_nl_functions.step_count(step_menu_step_number, mouse_pos, click, button)
             pygame.draw.rect(screen, (0, 0, 0), (menu_x, menu_y + 100, border_width, border_height), border_radius = 20)      
             text_surface = step_menu_font.render(f"-   {text_num}   +", True, light)
             text_rect = text_surface.get_rect(center=(menu_x + i * (w + 10) + w / 2, menu_y + h / 2))
