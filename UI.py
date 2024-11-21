@@ -1,14 +1,16 @@
 import pygame
 import rythm_nl_functions
+import sampler_functions
 
 class Button:
-    def __init__(self, x, y, active, width, height, color=(94, 80, 63)):
+    def __init__(self, x, y, active, width, height, color=(94, 80, 63), text=""):
         self.x = x
         self.y = y
         self.active = active
         self.width = width
         self.height = height
         self.color = color
+        self.text = text
 
 class Circle:
     def __init__(self, x, y, active, radius):
@@ -34,22 +36,22 @@ def sampler_position(screen, width, height, buttons): #nyomógombok rajza
    
     return buttons
 
-def sampler_menu(screen, width, height, buttons, mouse_pos=None, click=False): #samplerhez tartozó menü
+def sampler_menu(screen, width, height, buttons, empty_input_box, mouse_pos=None, click=False): #samplerhez tartozó menü
     #színek
     dark = (94, 80, 63)
     light = (234, 224, 213)
    
     #menü poz
     menu_x = [width + 45, width +120, width + 195]
-    menu_y = height + 300
+    menu_y = height + 250
 
     #négyzetek dimenziói
     w = 60
     h = 60
 
     #fájl feltöltés text box
-    upload_butt_font = pygame.font.SysFont(None, 24)
-    upload_butt_texts = "Enter the file path of your music file: "
+    #upload_butt_font = pygame.font.SysFont(None, 28)
+    #upload_butt_text = "Enter the name of your music file: "
 
     #gombok létrehozása
     if not buttons:
@@ -70,7 +72,7 @@ def sampler_menu(screen, width, height, buttons, mouse_pos=None, click=False): #
         pygame.draw.rect(screen, (box_color), (x, y, w, h), border_radius = 5)
         
         if i == 0: #play/pause jel
-            play_sign_points = [(width+55, height+310), (width+55, height+350), (width+66, height+330)]
+            play_sign_points = [(width+55, height+260), (width+55, height+300), (width+66, height+280)]
             pygame.draw.polygon(screen, (symbol_color), play_sign_points)
             pygame.draw.line(screen, (symbol_color), (x + 24, y + 10), (x + 24 + 11, y + 50), width = 2)
             pygame.draw.line(screen, (symbol_color), (x + 42, y + 10), (x + 42, y + 50), width = 3)
@@ -81,13 +83,11 @@ def sampler_menu(screen, width, height, buttons, mouse_pos=None, click=False): #
             pygame.draw.polygon(screen, (symbol_color), upload_sign_points)
 
             if button.active:
-                pygame.draw.rect(screen, (198, 172, 143), ((x-70), (y + 70), (w + 300), (h-20)), border_radius=15)
-                text_surface = upload_butt_font.render(f"{upload_butt_texts}", True, dark)
-                text_rect = text_surface.get_rect(center=(x + (w + 30), y + (h + 30)))
-                screen.blit(text_surface, text_rect)
+                sampler_functions.input_box(screen, empty_input_box, mouse_pos=None, click=False)
+                sampler_functions.active_upload_button_message(screen, sampler_menu_button=button)
 
             else:
-                pygame.draw.rect(screen, (0, 0, 0), ((x-70), (y + 70), (w + 300), (h-20)))
+                pygame.draw.rect(screen, (0, 0, 0), ((x-150), (y + 70), (w + 310), (h + 50)))
                     
 
 
@@ -155,5 +155,3 @@ def rythm_necklace_menu(screen, width, height, buttons, step_input, chosen_relat
     pygame.draw.rect(screen, dark, (menu_x, menu_y, border_width, border_height), border_radius = 20, width = 5)
     
     return text_num
-
-
