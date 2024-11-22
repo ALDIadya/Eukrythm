@@ -47,7 +47,7 @@ def relative_prime_index(step_number, relative_prime_count_index, mouse_pos, cli
             
     return index
 
-def r_necklace_button_create(width, height):
+def r_necklace_menu_button_create(width, height):
     border_width = 433
     border_height = 490
 
@@ -118,3 +118,19 @@ def event_marker(screen, step_number, mouse_pos, click, circles): #MEGJAVÍTANI!
 def intersect(circle, mouse_pos):
     distance = math.sqrt((circle.x - mouse_pos[0])**2 + (circle.y - mouse_pos[1])**2)
     return distance <= circle.radius
+
+def active_event_circle_button(small_circles):
+    active = []
+
+    for i, small_circle in enumerate(small_circles):
+        if small_circle.active:
+            active.append(i)
+    
+    """
+    - melyik számot választotta samplerbuttononként a user
+    - ellenőrizni, hogy elég pöttyöt nyomott-e le a user --> megnézni, hogy a kiválasztott event numberrel egyezik-e?!
+     
+
+    """
+
+    return active

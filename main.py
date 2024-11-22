@@ -24,7 +24,7 @@ def main():
     sampler_buttons = sampler_functions.empty_sampler_button_gen(width=rect_width, height=rect_height)
     sampler_menu_buttons = sampler_functions.sampler_menu_button_gen(width=rect_width, height=rect_height)
     input_box_button = sampler_functions.input_box_button_gen(second_sampler_menu_button=sampler_menu_buttons[1])
-    rythm_nl_buttons = rythm_nl_functions.r_necklace_button_create(width=rnm_width, height=rnm_height) 
+    rythm_nl_menu_buttons = rythm_nl_functions.r_necklace_menu_button_create(width=rnm_width, height=rnm_height) 
     relative_primes = []
 
     step_input = 3
@@ -45,8 +45,9 @@ def main():
                         
             #sampler-hez tartozó dolgok
             sampler_functions.existing_sampler_buttons(screen, buttons=sampler_buttons, mouse_pos=mouse_pos, click=click)
+            sampler_functions.sampler_menu_button_activity(buttons=sampler_menu_buttons, mouse_pos=mouse_pos, click=click)
             sampler_button_index = sampler_functions.active_sampler_button(sampler_buttons)
-            sampler_menu = UI.sampler_menu(screen, width = rect_width, height = rect_height, buttons = sampler_menu_buttons, input_box_button=input_box_button, sampler_button_index=sampler_button_index, mouse_pos=mouse_pos, click=click)
+            sampler_menu = UI.sampler_menu(screen, width = rect_width, height = rect_height, menu_buttons = sampler_menu_buttons, sampler_buttons=sampler_buttons, input_box_button=input_box_button, sampler_button_index=sampler_button_index, mouse_pos=mouse_pos, click=click)
             UI.sampler_position(screen, rect_width, rect_height, sampler_buttons)
             
             #play_button = sampler_functions.play_button(sampler_button=sampler_buttons, sampler_menu_button=sampler_menu)
@@ -55,31 +56,31 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if input_box_button.active:
                     index = sampler_button_index #így rövidebb
-                    text = sampler_buttons[index].text
+                    text = sampler_buttons[index].file_name_text
                     
-                    if sampler_buttons[index].text != "":
-                        text = sampler_buttons[index].text
+                    if sampler_buttons[index].file_name_text != "":
+                        text = sampler_buttons[index].file_name_text
 
                     if event.key == pygame.K_RETURN:
                         #sampler_buttons[index] = pygame.mixer.music.load(text)
                         pass
-                    elif event.kex == pygame.K_BACKSPACE:
-                        text = text[:-1]
+                    elif event.key == pygame.K_BACKSPACE:
+                        text = ""
                     else:
                         text += event.unicode
 
-                    sampler_buttons[index].text = text
+                    sampler_buttons[index].file_name_text = text
                   
             
             #rythm neckklace-hez tartozó dolgok
             relative_primes = rythm_nl_functions.relative_primes(step_number=step_input)
-            relative_prime_count_index = rythm_nl_functions.relative_prime_index(step_input, relative_prime_count_index, mouse_pos, click, rythm_nl_buttons[1])
+            relative_prime_count_index = rythm_nl_functions.relative_prime_index(step_input, relative_prime_count_index, mouse_pos, click, rythm_nl_menu_buttons[1])
             
             if relative_prime_count_index > len(relative_primes):
                 relative_prime_count_index = 0
             chosen_relative_prime = relative_primes[relative_prime_count_index]
 
-            new_step_num = UI.rythm_necklace_menu(screen, width = rnm_width, height = rnm_height, buttons = rythm_nl_buttons, mouse_pos = mouse_pos, click = click, step_input=step_input, chosen_relative_prime = chosen_relative_prime)
+            new_step_num = UI.rythm_necklace_menu(screen, width = rnm_width, height = rnm_height, buttons = rythm_nl_menu_buttons, mouse_pos = mouse_pos, click = click, step_input=step_input, chosen_relative_prime = chosen_relative_prime)
             step_input = new_step_num
 
             UI.rythm_circle(screen, width = crcl_width, height = crcl_height, dot_count = step_input, mouse_pos = mouse_pos, click = click)
