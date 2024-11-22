@@ -36,7 +36,7 @@ def sampler_position(screen, width, height, buttons): #nyomógombok rajza
    
     return buttons
 
-def sampler_menu(screen, width, height, buttons, empty_input_box, mouse_pos=None, click=False): #samplerhez tartozó menü
+def sampler_menu(screen, width, height, buttons, input_box_button, sampler_button_index, mouse_pos=None, click=False): #samplerhez tartozó menü
     #színek
     dark = (94, 80, 63)
     light = (234, 224, 213)
@@ -49,16 +49,6 @@ def sampler_menu(screen, width, height, buttons, empty_input_box, mouse_pos=None
     w = 60
     h = 60
 
-    #fájl feltöltés text box
-    #upload_butt_font = pygame.font.SysFont(None, 28)
-    #upload_butt_text = "Enter the name of your music file: "
-
-    #gombok létrehozása
-    if not buttons:
-        for x in menu_x:
-            buttons.append(Button(x = x, y = menu_y, active = False, width = w, height = h))
-
-    #gombok megszámozása a funkciók hozzárendeléséhez
     for i, button in enumerate(buttons):
         x, y, w, h = button.x, button.y, button.width, button.height
 
@@ -83,7 +73,7 @@ def sampler_menu(screen, width, height, buttons, empty_input_box, mouse_pos=None
             pygame.draw.polygon(screen, (symbol_color), upload_sign_points)
 
             if button.active:
-                sampler_functions.input_box(screen, empty_input_box, mouse_pos=None, click=False)
+                sampler_functions.input_box(screen, input_box_button=input_box_button, sampler_buttons=buttons, sampler_button_index=sampler_button_index, mouse_pos=None, click=False)
                 sampler_functions.active_upload_button_message(screen, sampler_menu_button=button)
 
             else:

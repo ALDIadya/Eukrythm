@@ -22,8 +22,8 @@ def main():
     rect_width, rect_height = 120, 120 
 
     sampler_buttons = sampler_functions.empty_sampler_button_gen(width=rect_width, height=rect_height)
-    sampler_menu_buttons = []
-    input_box_button = sampler_functions.input_box_button_gen(screen, sampler_buttons)
+    sampler_menu_buttons = sampler_functions.sampler_menu_button_gen(width=rect_width, height=rect_height)
+    input_box_button = sampler_functions.input_box_button_gen(second_sampler_menu_button=sampler_menu_buttons[1])
     rythm_nl_buttons = rythm_nl_functions.r_necklace_button_create(width=rnm_width, height=rnm_height) 
     relative_primes = []
 
@@ -44,26 +44,31 @@ def main():
                 click = True
                         
             #sampler-hez tartozó dolgok
-            sampler_buttons = sampler_functions.existing_sampler_buttons(screen, buttons=sampler_buttons, mouse_pos=mouse_pos, click=click)
-            sampler_menu = UI.sampler_menu(screen, width = rect_width, height = rect_height, buttons = sampler_menu_buttons, empty_input_box=input_box_button, mouse_pos=mouse_pos, click=click)
+            sampler_functions.existing_sampler_buttons(screen, buttons=sampler_buttons, mouse_pos=mouse_pos, click=click)
+            sampler_button_index = sampler_functions.active_sampler_button(sampler_buttons)
+            sampler_menu = UI.sampler_menu(screen, width = rect_width, height = rect_height, buttons = sampler_menu_buttons, input_box_button=input_box_button, sampler_button_index=sampler_button_index, mouse_pos=mouse_pos, click=click)
             UI.sampler_position(screen, rect_width, rect_height, sampler_buttons)
             
-            play_button = sampler_functions.play_button(sampler_button=sampler_buttons, sampler_menu_button=sampler_menu)
-            music_input_box = sampler_functions.input_box(screen, input_box_button=input_box_button)
+            #play_button = sampler_functions.play_button(sampler_button=sampler_buttons, sampler_menu_button=sampler_menu)
+            music_input_box = sampler_functions.input_box(screen, input_box_button=input_box_button, sampler_buttons=sampler_buttons, sampler_button_index=sampler_button_index, mouse_pos=mouse_pos, click=click)
             
-
             if event.type == pygame.KEYDOWN:
                 if input_box_button.active:
-                    index = music_input_box.sampler_button_index
-                    text = music_input_box.sampler_button_index(text)
-                    print(pygame.key.name())
+                    index = sampler_button_index #így rövidebb
+                    text = sampler_buttons[index].text
+                    
+                    if sampler_buttons[index].text != "":
+                        text = sampler_buttons[index].text
+
                     if event.key == pygame.K_RETURN:
-                        sampler_buttons[index] = pygame.mixer.music.load(text)
-                        text = ""
+                        #sampler_buttons[index] = pygame.mixer.music.load(text)
+                        pass
                     elif event.kex == pygame.K_BACKSPACE:
                         text = text[:-1]
                     else:
                         text += event.unicode
+
+                    sampler_buttons[index].text = text
                   
             
             #rythm neckklace-hez tartozó dolgok
