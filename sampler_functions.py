@@ -4,6 +4,7 @@ import UI
 def existing_sampler_buttons(screen, buttons, mouse_pos=None, click=False):
     #színek
     dark = (94, 80, 63)
+    middle = (198, 172, 143)
     light = (234, 224, 213)
 
     for i, button in enumerate(buttons):
@@ -14,7 +15,14 @@ def existing_sampler_buttons(screen, buttons, mouse_pos=None, click=False):
             for button2 in (buttons):
                 button2.active = False
             button.active = True
-        button.button_color = light if button.active else dark
+
+        if button.active and button.file_name_text == "":
+            button.color = light
+        elif button.file_name_text != "":
+            button.color = middle
+        else:
+            button.color = dark
+
 
 def empty_sampler_button_gen(width, height): #TODO: ACTIVITY
     buttons = []
@@ -42,22 +50,6 @@ def sampler_menu_button_gen(width, height):
 
     return buttons
 
-def sampler_menu_button_activity(buttons, mouse_pos=None, click=False):
-    dark = (94, 80, 63)
-    light = (234, 224, 213)
-
-    for i, button in enumerate(buttons):
-        x, y = button.x, button.y
-
-        if click and (x <= mouse_pos[0] <= (x + 80)) and (y <= mouse_pos[1] <= (y + 80)):
-            for button2 in (buttons):
-                button2.active = False
-            button.active = True
-        button.button_color = light if button.active else dark
-        button.symbol_color = dark if button.active else light
-    
-    return
-
 def input_box_button_gen(second_sampler_menu_button):
     x = (second_sampler_menu_button.x-145)
     y = (second_sampler_menu_button.y + 120)
@@ -80,27 +72,35 @@ def active_sampler_button(sampler_buttons):
 def input_box(screen, input_box_button, sampler_button_index, sampler_buttons, mouse_pos=None, click=False):
     dark = (198, 172, 143)
     light = (234, 224, 213)
-    color = light if input_box_button.active else dark
-    existing_sampler_buttons(screen, sampler_buttons, mouse_pos=None, click=False)
     x, y, w, h = input_box_button.x, input_box_button.y, input_box_button.width, input_box_button.height
 
+    sampler_menu_button = existing_sampler_buttons(screen, sampler_buttons, mouse_pos=None, click=False)
+
     text = ""
+
     if sampler_button_index is not None:
+        input_box_button.active = True
         text = sampler_buttons[sampler_button_index].file_name_text
-            
-    font = pygame.font.Font(None, 28)
     
+    else:
+        input_box_button.active = False
+
     if click and (input_box_button.x <= mouse_pos[0] <= input_box_button.x + input_box_button.width) and (input_box_button.y <= mouse_pos[1] <= input_box_button.y + (input_box_button.height )):
-        input_box_button.active = not input_box_button.active
+        input_box_button.active = True
+
+
+    font = pygame.font.Font(None, 28)
+    color = light if input_box_button.active else dark
 
     if sampler_button_index is not None and sampler_buttons[sampler_button_index].active and input_box_button.active:
-        black_box = pygame.draw.rect(screen, (0, 0, 0), (x, y, w, h), width=4)
-        text_rect = pygame.draw.rect(screen, color, (x, y, w, h), width=4, border_radius=10)
-        text_surface = font.render(text, True, ((94, 80, 63)))
-        screen.blit(text_surface, black_box)
-        screen.blit(text_surface, text_rect)
+        pygame.draw.rect(screen, (0, 0, 0), (x, y, w, h))
+        pygame.draw.rect(screen, color, (x, y, w, h), width=4, border_radius=10)
+        
+        if text:
+            text_surface = font.render(text, True, dark)
+            screen.blit(text_surface, (x+10, y+10))
 
-    return 
+    return
 
 def active_upload_button_message(screen, sampler_menu_button):
     upload_butt_font = pygame.font.SysFont(None, 28)
@@ -112,6 +112,7 @@ def active_upload_button_message(screen, sampler_menu_button):
     screen.blit(text_surface, text_rect)
                 
     return upload_butt_text
+        
 
 def play_button(sampler_button, sampler_menu_button, mouse_pos=None, click=False):
     index = active_sampler_button(sampler_button, mouse_pos, click)

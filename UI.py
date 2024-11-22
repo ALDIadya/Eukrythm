@@ -3,16 +3,15 @@ import rythm_nl_functions
 import sampler_functions
 
 class Button:
-    def __init__(self, x, y, active, width, height, button_color=(94, 80, 63), symbol_color=(234, 224, 213), file_name_text=""):
+    def __init__(self, x, y, active, width, height, color=(94, 80, 63), file_name_text=""):
         self.x = x
         self.y = y
         self.active = active
         self.width = width
         self.height = height
-        self.button_color = button_color
-        self.symbol_color = symbol_color
+        self.color = color
         self.file_name_text = file_name_text
-        #self.chosen_circle_indices = chosen_circle_indices --> beírni föntre!!
+        #self.chosen_circle_indices = chosen_circle_indices
 
 class Circle:
     def __init__(self, x, y, active, radius):
@@ -34,11 +33,15 @@ def sampler_position(screen, width, height, buttons): #nyomógombok rajza
     for button in buttons:
         x, y = button.x, button.y
 
-        pygame.draw.rect(screen, button.button_color, (x, y, 80, 80), border_radius=5)
+        pygame.draw.rect(screen, button.color, (x, y, 80, 80), border_radius=5)
    
     return buttons
 
 def sampler_menu(screen, width, height, menu_buttons, sampler_buttons, input_box_button, sampler_button_index, mouse_pos=None, click=False): #samplerhez tartozó menü
+    #színek
+    dark = (94, 80, 63)
+    light = (234, 224, 213)
+   
     #négyzetek dimenziói
     w = 60
     h = 60
@@ -46,18 +49,25 @@ def sampler_menu(screen, width, height, menu_buttons, sampler_buttons, input_box
     for i, button in enumerate(menu_buttons):
         x, y, w, h = button.x, button.y, button.width, button.height
 
+        if click and x <= mouse_pos[0] <= (x + 60) and y <= mouse_pos[1] <= (y + 60):
+            button.active = not button.active  #állapot váltása
+    
         #színek beállítása az aktív állapot szerint
-        pygame.draw.rect(screen, (button.button_color), (x, y, w, h), border_radius = 5)
+        box_color = light if button.active else dark
+        symbol_color = dark if button.active else light
+        
+        pygame.draw.rect(screen, (box_color), (x, y, w, h), border_radius = 5)
         
         if i == 0: #play/pause jel
             play_sign_points = [(width+55, height+260), (width+55, height+300), (width+66, height+280)]
-            pygame.draw.polygon(screen, (button.symbol_color), play_sign_points)
-            pygame.draw.line(screen, (button.symbol_color), (x + 24, y + 10), (x + 24 + 11, y + 50), width = 2)
-            pygame.draw.line(screen, (button.symbol_color), (x + 42, y + 10), (x + 42, y + 50), width = 3)
-            pygame.draw.line(screen, (button.symbol_color), (x + 49, y + 10), (x + 49, y + 50), width = 3)
+            pygame.draw.polygon(screen, (symbol_color), play_sign_points)
+            pygame.draw.line(screen, (symbol_color), (x + 24, y + 10), (x + 24 + 11, y + 50), width = 2)
+            pygame.draw.line(screen, (symbol_color), (x + 42, y + 10), (x + 42, y + 50), width = 3)
+            pygame.draw.line(screen, (symbol_color), (x + 49, y + 10), (x + 49, y + 50), width = 3)
             
         if i == 1: #upload
-            pygame.draw.polygon(screen, (button.symbol_color), ((x + 20, y + 50), (x + 30, y + 10), (x + 40, y + 50)))
+            upload_sign_points = [(x + 20, y + 50), (x + 30, y + 10), (x + 40, y + 50)]
+            pygame.draw.polygon(screen, (symbol_color), upload_sign_points)
 
             if button.active:
                 sampler_functions.input_box(screen, input_box_button=input_box_button, sampler_buttons=sampler_buttons, sampler_button_index=sampler_button_index, mouse_pos=None, click=False)
@@ -69,8 +79,8 @@ def sampler_menu(screen, width, height, menu_buttons, sampler_buttons, input_box
 
 
         if i == 2: #delete 
-            pygame.draw.line(screen, button.symbol_color, (x + 18, y + 10), (x + 40, y + 50), width=4 )  #bal felső-jobb alsó vonal
-            pygame.draw.line(screen, button.symbol_color, (x + 18, y + 50), (x + 40, y + 10), width=4)  #bal alsó-jobb felső vonal
+            pygame.draw.line(screen, symbol_color, (x + 18, y + 10), (x + 40, y + 50), width=4 )  #bal felső-jobb alsó vonal
+            pygame.draw.line(screen, symbol_color, (x + 18, y + 50), (x + 40, y + 10), width=4)  #bal alsó-jobb felső vonal
 
         
 
