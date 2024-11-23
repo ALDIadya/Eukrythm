@@ -1,5 +1,4 @@
 import pygame
-import rythm_nl_functions
 import sampler_functions
 
 class Button:
@@ -82,11 +81,9 @@ def sampler_menu(screen, width, height, menu_buttons, sampler_buttons, input_box
             pygame.draw.line(screen, symbol_color, (x + 18, y + 10), (x + 40, y + 50), width=4 )  #bal felső-jobb alsó vonal
             pygame.draw.line(screen, symbol_color, (x + 18, y + 50), (x + 40, y + 10), width=4)  #bal alsó-jobb felső vonal
 
-        
-
     return menu_buttons
 
-def rythm_circle(screen, width, height, dot_count, mouse_pos=None, click=False): #kör rajza 
+def rythm_circle(screen, width, height): #kör rajza 
     pygame.draw.circle(screen, (234, 224, 213), [(width), (height)], 150, width = 3)
 
     return
@@ -121,13 +118,11 @@ def rythm_necklace_menu(screen, width, height, buttons, step_input, chosen_relat
                         border_bottom_right_radius = 10, 
                         border_bottom_left_radius=10)
         if i == 0:
-            text_num = rythm_nl_functions.step_count(step_menu_step_number, mouse_pos, click, button)
             pygame.draw.rect(screen, (0, 0, 0), (menu_x, menu_y + 100, border_width, border_height), border_radius = 20)      
-            text_surface = step_menu_font.render(f"-   {text_num}   +", True, light)
+            text_surface = step_menu_font.render(f"-   {step_input}   +", True, light)
             text_rect = text_surface.get_rect(center=(menu_x + i * (w + 10) + w / 2, menu_y + h / 2))
             screen.blit(text_surface, text_rect)
 
-        #megjavítani!!!!!!
         elif i == 1:
                 text_surface = step_menu_font.render(f"-   {chosen_relative_prime}   +", True, light)
                 text_rect = text_surface.get_rect(center=(menu_x + i * (w + 10) + w / 2, menu_y + h / 2))
@@ -140,5 +135,5 @@ def rythm_necklace_menu(screen, width, height, buttons, step_input, chosen_relat
    
     #keret
     pygame.draw.rect(screen, dark, (menu_x, menu_y, border_width, border_height), border_radius = 20, width = 5)
-    
-    return text_num
+
+    return

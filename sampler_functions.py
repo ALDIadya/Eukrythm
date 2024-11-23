@@ -119,7 +119,7 @@ def play_button(sampler_button, sampler_menu_button, mouse_pos=None, click=False
     
     if sampler_menu_button[0].active and sampler_button[index].active:
             pygame.mixer.music.play(loops=0)
-    if not (sampler_menu_button[0].active and sampler_button[index].active):
+    if not sampler_menu_button[0].active:
             pygame.mixer.music.pause()
 
     return

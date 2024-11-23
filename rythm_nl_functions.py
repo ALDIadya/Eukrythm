@@ -3,10 +3,10 @@ import math
 import pygame
 
 def step_count(step_num, mouse_pos, click, button):
-    if click and (button.x <= mouse_pos[0] <= button.x + button.width) and (button.y <= mouse_pos[1] <= button.y + button.height):
-        if mouse_pos[0] < button.x + button.width / 2 and step_num > 2:
+    if click and (button[0].x <= mouse_pos[0] <= button[0].x + button[0].width) and (button[0].y <= mouse_pos[1] <= button[0].y + button[0].height):
+        if mouse_pos[0] < button[0].x + button[0].width / 2 and step_num > 2:
             step_num -= 1
-        if mouse_pos[0] > button.x + button.width / 2 and step_num < 12:
+        if mouse_pos[0] > button[0].x + button[0].width / 2 and step_num < 12:
             step_num += 1
     return step_num
 
@@ -32,7 +32,7 @@ def relative_primes(step_number):
             relative_primes.append(i)
     return relative_primes
 
-def relative_prime_index(step_number, relative_prime_count_index, mouse_pos, click, button):
+def relative_prime_index(step_number, relative_prime_count_index, button, mouse_pos, click):
     relative_prime = relative_primes(step_number)
     index = relative_prime_count_index
     width = (button.width)
@@ -67,10 +67,7 @@ def r_necklace_menu_button_create(width, height):
 
     return buttons
     
-def small_rythm_circles(screen, step_number, width, height, mouse_pos, click):
-    dark = (94, 80, 63)
-    light = (234, 224, 213)
-
+def small_rythm_circles_button_gen(step_number, width, height):
     radius = 150
     
     #szög kiszámításához
@@ -90,7 +87,14 @@ def small_rythm_circles(screen, step_number, width, height, mouse_pos, click):
         y = height + int(radius * math.sin(angle_rad))  
 
         circles.append(UI.Circle(x=x, y=y, active=False, radius=small_radius))
+    
+    return circles
 
+def existing_small_rythm_circles(screen, circles, mouse_pos=None, click=False):
+    dark = (94, 80, 63)
+    light = (234, 224, 213)
+    small_radius = 15
+    
     #kisebb körök kirajzolása
     for circle in circles:
         x, y = circle.x, circle.y
@@ -102,16 +106,16 @@ def small_rythm_circles(screen, step_number, width, height, mouse_pos, click):
         color = light if circle.active else dark
         pygame.draw.circle(screen, color, (x, y), small_radius)
 
-    return circles
+    return 
 
-def event_marker(screen, step_number, mouse_pos, click, circles): #MEGJAVÍTANI!!!!!!
+def event_marker(screen, step_number, mouse_pos, click, circles): 
     list_counter = len(relative_primes(step_number))
     chosen_circles = [] * list_counter
     
     for circle in circles:
         if click and intersect(circle, mouse_pos):
             chosen_circles.append(circle)
-            pygame.draw.circle(screen, (198, 172, 143), (circle.x, circle.y), circle.radius)
+            pygame.draw.circle(screen, (198, 172, 143), (circle.x, circle.y), circles.radius)
 
     return chosen_circles
 
@@ -129,7 +133,7 @@ def active_event_circle_button(small_circles):
     """
     - melyik számot választotta samplerbuttononként a user
     - ellenőrizni, hogy elég pöttyöt nyomott-e le a user --> megnézni, hogy a kiválasztott event numberrel egyezik-e?!
-     
+
 
     """
 
