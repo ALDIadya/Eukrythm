@@ -127,3 +127,30 @@ def active_event_circle_button(circles, sampler_buttons):
         sampler_buttons[sampler_button_index].circle_indices = chosen_circles_indices
 
     return 
+
+def start_button(width, height, is_playing, mouse_pos=None, click=False):
+    menu_buttons = r_necklace_menu_button_create(width, height)
+    start_button = menu_buttons[2]
+    PLAYBACK_EVENT = pygame.USEREVENT + 1
+    bpm = 60
+    millis = int(1 / (bpm / 60) * 1000)
+
+    if click and (start_button.x <= mouse_pos[0] <= start_button.x + start_button.width) and (start_button.y <= mouse_pos[1] <= start_button.y + start_button.height):
+        if is_playing == False:
+            pygame.time.set_timer(PLAYBACK_EVENT, millis)
+        else:
+            pygame.time.set_timer(PLAYBACK_EVENT, 0)
+        is_playing = not is_playing
+
+    return is_playing
+
+def note_playing(note_count, sampler_buttons, step_number): #elkapja az eventet
+    for i, button in enumerate(sampler_buttons):
+        if button.file_name_text != "":
+            current_note = note_count % step_number
+            if current_note in button.circle_indices:
+                channel = pygame.mixer.find_channel()
+                print(str(channel), current_note, i)
+                channel.play(pygame.mixer.Sound(button.file_name_text))
+
+    return note_count + 1

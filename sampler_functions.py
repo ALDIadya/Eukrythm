@@ -144,5 +144,6 @@ def delete_button(sampler_buttons, sampler_menu_buttons, mouse_pos=None, click=F
                     (sampler_menu_buttons.y <= mouse_pos[1] <= sampler_menu_buttons.y + (sampler_menu_buttons.height )) and \
                     sampler_buttons[index].active:
             sampler_buttons[index].file_name_text = ""
+            sampler_buttons[index].circle_indices = None
 
     return

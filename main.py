@@ -8,7 +8,10 @@ def main():
 
     pygame.init()
     pygame.mixer.init()
-        
+    
+    PLAYBACK_EVENT = pygame.USEREVENT + 1
+
+    is_playing = False
     run = True
     pattern = False
     active = False
@@ -24,6 +27,7 @@ def main():
 
     step_number = 3
     relative_prime_count_index = 0
+    note_count = 0
     
     rythm_nl_menu_buttons = rythm_nl_functions.r_necklace_menu_button_create(width=rnm_width, height=rnm_height) 
     relative_primes = []
@@ -45,6 +49,9 @@ def main():
         
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 click = True
+
+            if event.type == PLAYBACK_EVENT:
+                note_count = rythm_nl_functions.note_playing(note_count=note_count, sampler_buttons=sampler_buttons, step_number=step_number)
                         
             #sampler-hez tartozó dolgok
             rythm_nl_functions.active_event_circle_button(circles=small_circle_buttons, sampler_buttons=sampler_buttons)
@@ -102,7 +109,12 @@ def main():
             if click and (rythm_nl_menu_buttons[4].x <= mouse_pos[0] <= rythm_nl_menu_buttons[4].x + rythm_nl_menu_buttons[4].width) and (rythm_nl_menu_buttons[4].y <= mouse_pos[1] <= rythm_nl_menu_buttons[4].y + rythm_nl_menu_buttons[4].height):
                 step_number = save_load.load_button(sampler_buttons=sampler_buttons)
                 small_circle_buttons = rythm_nl_functions.small_rythm_circles_button_gen(step_number=step_number, width = crcl_width, height=crcl_height)
-                    
+            
+            #start button
+            if click and (rythm_nl_menu_buttons[2].x <= mouse_pos[0] <= rythm_nl_menu_buttons[2].x + rythm_nl_menu_buttons[2].width) and (rythm_nl_menu_buttons[2].y <= mouse_pos[1] <= rythm_nl_menu_buttons[2].y + rythm_nl_menu_buttons[2].height):
+                is_playing = rythm_nl_functions.start_button(width=rnm_width, height=rnm_height, is_playing=is_playing, mouse_pos=mouse_pos, click=click)
+            
+
             relative_primes = rythm_nl_functions.relative_primes(step_number=step_number)
             relative_prime_count_index = rythm_nl_functions.relative_prime_index(step_number=step_number, button=rythm_nl_menu_buttons[1], relative_prime_count_index=relative_prime_count_index, mouse_pos=mouse_pos, click=click)
             
