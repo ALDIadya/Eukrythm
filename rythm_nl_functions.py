@@ -1,6 +1,7 @@
 import UI
 import math
 import pygame
+import sampler_functions
 
 def step_count(step_num, mouse_pos, click, button):
     if click and (button[0].x <= mouse_pos[0] <= button[0].x + button[0].width) and (button[0].y <= mouse_pos[1] <= button[0].y + button[0].height):
@@ -63,7 +64,7 @@ def r_necklace_menu_button_create(width, height):
     for i in range(5): 
         button_x = menu_x + i * (width + 10)
         button_y = menu_y
-        buttons.append(UI.Button(x=button_x, y=button_y, active=False, width=width, height=height, circle_coords=None))
+        buttons.append(UI.Button(x=button_x, y=button_y, active=False, width=width, height=height, circle_indices=None))
 
     return buttons
     
@@ -90,16 +91,21 @@ def small_rythm_circles_button_gen(step_number, width, height):
     
     return circles
 
+def intersect(circles, mouse_pos=None):
+    pass
+
 def existing_small_rythm_circles(screen, circles, mouse_pos=None, click=False):
     dark = (94, 80, 63)
     light = (234, 224, 213)
     small_radius = 15
+
     
     #kisebb körök kirajzolása
     for circle in circles:
         x, y = circle.x, circle.y
+        distance = math.sqrt((circle.x - mouse_pos[0])**2 + (circle.y - mouse_pos[1])**2)
 
-        if click and (x - small_radius <= mouse_pos[0] <= x + small_radius) and (y - small_radius <= mouse_pos[1] <= y + small_radius):
+        if click and (distance <= circle.radius):
             circle.active = not circle.active  #állapot váltása
         
         #szín beállítása az aktív állapot szerint
@@ -108,11 +114,16 @@ def existing_small_rythm_circles(screen, circles, mouse_pos=None, click=False):
 
     return 
 
-def active_event_circle_button(circles):
-    chosen_circles = []
-    
-    for i, circle in circles:
-        if circle.active:
-            chosen_circles.append(i)
+def active_event_circle_button(circles, sampler_buttons):
+    chosen_circles_indices = []
+    sampler_button_index = sampler_functions.active_sampler_button(sampler_buttons)
 
-    return chosen_circles
+    if sampler_button_index is not None:
+        if sampler_buttons[sampler_button_index].active:
+            for i, circle in enumerate(circles):
+                if circle.active:
+                    chosen_circles_indices.append(i)
+    
+        sampler_buttons[sampler_button_index].circle_indices = chosen_circles_indices
+
+    return 

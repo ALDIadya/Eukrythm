@@ -1,21 +1,42 @@
 import pygame
 import UI
-import rythm_nl_functions
+import os.path
 
-def existing_sampler_buttons(screen, buttons, mouse_pos=None, click=False):
+
+def empty_sampler_button_gen(width, height):
+    buttons = []
+
+    for row in range(2):
+        for col in range(3):
+            x = width + 15 + col * 90
+            y = height + 15 + row * 90
+            buttons.append(UI.Button(x=x, y=y, active=False, width=width, height=height, circle_indices=[]))
+    
+    return buttons
+
+def existing_sampler_buttons(screen, sampler_buttons, small_circle_buttons, mouse_pos=None, click=False):
     #színek
     dark = (94, 80, 63)
     middle = (198, 172, 143)
     light = (234, 224, 213)
 
-    for i, button in enumerate(buttons):
+    for i, button in enumerate(sampler_buttons):
         x, y = button.x, button.y
 
         #ellenőrizzük, hogy gombra kattintott-e a user
         if click and (x <= mouse_pos[0] <= (x + 80)) and (y <= mouse_pos[1] <= (y + 80)):
-            for button2 in (buttons):
+            for button2 in sampler_buttons:
                 button2.active = False
             button.active = True
+
+
+            button_index = active_sampler_button(sampler_buttons)
+            if button_index is not None:
+                circle_indices = sampler_buttons[button_index].circle_indices
+                for circle in small_circle_buttons:
+                    circle.active = False
+                for j in circle_indices:
+                    small_circle_buttons[j].active = True
 
         if button.active and button.file_name_text == "":
             button.color = light
@@ -23,21 +44,6 @@ def existing_sampler_buttons(screen, buttons, mouse_pos=None, click=False):
             button.color = middle
         else:
             button.color = dark
-
-def empty_sampler_button_gen(width, height, small_circle_buttons):
-    buttons = []
-
-    for row in range(2):
-        for col in range(3):
-            x = width + 15 + col * 90
-            y = height + 15 + row * 90
-            circle_coords = []
-            if small_circle_buttons is not None:
-                for button in small_circle_buttons:
-                    circle_coords.append(button)
-            buttons.append(UI.Button(x=x, y=y, active=False, width=width, height=height, circle_coords=circle_coords))
-    
-    return buttons
 
 def sampler_menu_button_gen(width, height):
     buttons = []
@@ -77,8 +83,6 @@ def input_box(screen, input_box_button, sampler_button_index, sampler_buttons, m
     dark = (198, 172, 143)
     light = (234, 224, 213)
     x, y, w, h = input_box_button.x, input_box_button.y, input_box_button.width, input_box_button.height
-
-    sampler_menu_button = existing_sampler_buttons(screen, sampler_buttons, mouse_pos=None, click=False)
 
     text = ""
 
@@ -120,22 +124,25 @@ def active_upload_button_message(screen, sampler_menu_button):
 def play_button(sampler_buttons, sampler_menu_buttons, mouse_pos=None, click=False):
     index = active_sampler_button(sampler_buttons)
     
-    if click and (sampler_menu_buttons.x <= mouse_pos[0] <= sampler_menu_buttons.x + sampler_menu_buttons.width) and \
-                (sampler_menu_buttons.y <= mouse_pos[1] <= sampler_menu_buttons.y + (sampler_menu_buttons.height )) and \
-                sampler_buttons[index].active:
-            pygame.mixer.music.load(sampler_buttons[index].file_name_text)
-            pygame.mixer.music.play(loops=0)
-    if not sampler_menu_buttons.active:
-            pygame.mixer.music.pause()
+    if index is not None:
+        if click and (sampler_menu_buttons.x <= mouse_pos[0] <= sampler_menu_buttons.x + sampler_menu_buttons.width) and \
+                    (sampler_menu_buttons.y <= mouse_pos[1] <= sampler_menu_buttons.y + (sampler_menu_buttons.height )) and \
+                    sampler_buttons[index].active:
+                if os.path.exists(sampler_buttons[index].file_name_text):
+                    pygame.mixer.music.load(sampler_buttons[index].file_name_text)
+                    pygame.mixer.music.play(loops=0)
+        if not sampler_menu_buttons.active:
+                pygame.mixer.music.pause()
 
     return
 
 def delete_button(sampler_buttons, sampler_menu_buttons, mouse_pos=None, click=False):
     index = active_sampler_button(sampler_buttons)
-
-    if click and (sampler_menu_buttons.x <= mouse_pos[0] <= sampler_menu_buttons.x + sampler_menu_buttons.width) and \
-                (sampler_menu_buttons.y <= mouse_pos[1] <= sampler_menu_buttons.y + (sampler_menu_buttons.height )) and \
-                sampler_buttons[index].active:
-        sampler_buttons[index].file_name_text = ""
+    
+    if index is not None:
+        if click and (sampler_menu_buttons.x <= mouse_pos[0] <= sampler_menu_buttons.x + sampler_menu_buttons.width) and \
+                    (sampler_menu_buttons.y <= mouse_pos[1] <= sampler_menu_buttons.y + (sampler_menu_buttons.height )) and \
+                    sampler_buttons[index].active:
+            sampler_buttons[index].file_name_text = ""
 
     return

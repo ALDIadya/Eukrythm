@@ -2,16 +2,15 @@ import pygame
 import sampler_functions
 
 class Button:
-    def __init__(self, x, y, active, width, height, circle_coords=None, color=(94, 80, 63), file_name_text=""):
+    def __init__(self, x, y, active, width, height, circle_indices=None, color=(94, 80, 63), file_name_text=""):
         self.x = x
         self.y = y
         self.active = active
         self.width = width
         self.height = height
-        self.circle_coords = circle_coords
+        self.circle_indices = circle_indices
         self.color = color
         self.file_name_text = file_name_text
-        #self.chosen_circle_indices = chosen_circle_indices
 
 class Circle:
     def __init__(self, x, y, active, radius):

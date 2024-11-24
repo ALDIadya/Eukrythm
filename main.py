@@ -28,7 +28,7 @@ def main():
     relative_primes = []
     small_circle_buttons = rythm_nl_functions.small_rythm_circles_button_gen(step_number=step_number, width = crcl_width, height=crcl_height)
     
-    sampler_buttons = sampler_functions.empty_sampler_button_gen(width=rect_width, height=rect_height, small_circle_buttons=small_circle_buttons)
+    sampler_buttons = sampler_functions.empty_sampler_button_gen(width=rect_width, height=rect_height)
     sampler_menu_buttons = sampler_functions.sampler_menu_button_gen(width=rect_width, height=rect_height)
     input_box_button = sampler_functions.input_box_button_gen(second_sampler_menu_button=sampler_menu_buttons[1])
     last_sampler_button_index = None 
@@ -46,7 +46,8 @@ def main():
                 click = True
                         
             #sampler-hez tartozó dolgok
-            sampler_functions.existing_sampler_buttons(screen, buttons=sampler_buttons, mouse_pos=mouse_pos, click=click)
+            rythm_nl_functions.active_event_circle_button(circles=small_circle_buttons, sampler_buttons=sampler_buttons)
+            sampler_functions.existing_sampler_buttons(screen, sampler_buttons=sampler_buttons, small_circle_buttons=small_circle_buttons, mouse_pos=mouse_pos, click=click)
             sampler_button_index = sampler_functions.active_sampler_button(sampler_buttons)
             UI.sampler_menu(screen, width = rect_width, height = rect_height, menu_buttons = sampler_menu_buttons, sampler_buttons=sampler_buttons, input_box_button=input_box_button, sampler_button_index=sampler_button_index, mouse_pos=mouse_pos, click=click)
             UI.sampler_position(screen, rect_width, rect_height, sampler_buttons)
@@ -81,17 +82,16 @@ def main():
                 sampler_buttons[index].file_name_text = text
                 
             
-                #rythm neckklace-hez tartozó dolgok
+            #rythm neckklace-hez tartozó dolgok
+            
             if click and (rythm_nl_menu_buttons[0].x <= mouse_pos[0] <= rythm_nl_menu_buttons[0].x + rythm_nl_menu_buttons[0].width) and (rythm_nl_menu_buttons[0].y <= mouse_pos[1] <= rythm_nl_menu_buttons[0].y + rythm_nl_menu_buttons[0].height):
                 if mouse_pos[0] < rythm_nl_menu_buttons[0].x + rythm_nl_menu_buttons[0].width / 2 and step_number > 2:
                     step_number -= 1
                     small_circle_buttons = rythm_nl_functions.small_rythm_circles_button_gen(step_number=step_number, width = crcl_width, height=crcl_height)
-                    sampler_buttons = sampler_functions.empty_sampler_button_gen(width=rect_width, height=rect_height, small_circle_buttons=small_circle_buttons)
-    
+                    
                 if mouse_pos[0] > rythm_nl_menu_buttons[0].x + rythm_nl_menu_buttons[0].width / 2 and step_number < 12:
                     step_number += 1
                     small_circle_buttons = rythm_nl_functions.small_rythm_circles_button_gen(step_number=step_number, width = crcl_width, height=crcl_height)
-                    sampler_buttons = sampler_functions.empty_sampler_button_gen(width=rect_width, height=rect_height, small_circle_buttons=small_circle_buttons)
 
             relative_primes = rythm_nl_functions.relative_primes(step_number=step_number)
             relative_prime_count_index = rythm_nl_functions.relative_prime_index(step_number=step_number, button=rythm_nl_menu_buttons[1], relative_prime_count_index=relative_prime_count_index, mouse_pos=mouse_pos, click=click)
@@ -105,8 +105,7 @@ def main():
 
             UI.rythm_circle(screen, width = crcl_width, height = crcl_height)
             rythm_nl_functions.existing_small_rythm_circles(screen, circles=small_circle_buttons, mouse_pos=mouse_pos, click=click)
-
-
+            
         pygame.display.flip()
         clock.tick(60)
 
