@@ -91,21 +91,22 @@ def small_rythm_circles_button_gen(step_number, width, height):
     
     return circles
 
-def intersect(circles, mouse_pos=None):
-    pass
-
-def existing_small_rythm_circles(screen, circles, mouse_pos=None, click=False):
+def existing_small_rythm_circles(screen, circles, chosen_relative_prime, mouse_pos=None, click=False):
     dark = (94, 80, 63)
     light = (234, 224, 213)
     small_radius = 15
-
     
     #kisebb körök kirajzolása
     for circle in circles:
         x, y = circle.x, circle.y
         distance = math.sqrt((circle.x - mouse_pos[0])**2 + (circle.y - mouse_pos[1])**2)
 
-        if click and (distance <= circle.radius):
+        active_circles = 0
+        for circle2 in circles:
+            if circle2.active:
+                active_circles += 1
+
+        if click and (distance <= circle.radius) and active_circles < chosen_relative_prime: #TODO: nem lehet deszelektálni
             circle.active = not circle.active  #állapot váltása
         
         #szín beállítása az aktív állapot szerint
@@ -132,7 +133,7 @@ def start_button(width, height, is_playing, mouse_pos=None, click=False):
     menu_buttons = r_necklace_menu_button_create(width, height)
     start_button = menu_buttons[2]
     PLAYBACK_EVENT = pygame.USEREVENT + 1
-    bpm = 60
+    bpm = 240
     millis = int(1 / (bpm / 60) * 1000)
 
     if click and (start_button.x <= mouse_pos[0] <= start_button.x + start_button.width) and (start_button.y <= mouse_pos[1] <= start_button.y + start_button.height):

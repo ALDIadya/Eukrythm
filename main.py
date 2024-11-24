@@ -126,7 +126,7 @@ def main():
             UI.rythm_necklace_menu(screen, width = rnm_width, height = rnm_height, buttons = rythm_nl_menu_buttons, mouse_pos = mouse_pos, click = click, step_input=step_number, chosen_relative_prime = chosen_relative_prime)
 
             UI.rythm_circle(screen, width = crcl_width, height = crcl_height)
-            rythm_nl_functions.existing_small_rythm_circles(screen, circles=small_circle_buttons, mouse_pos=mouse_pos, click=click)
+            rythm_nl_functions.existing_small_rythm_circles(screen, circles=small_circle_buttons, chosen_relative_prime=chosen_relative_prime, mouse_pos=mouse_pos, click=click)
             
 
 

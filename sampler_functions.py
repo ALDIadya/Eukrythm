@@ -36,7 +36,7 @@ def existing_sampler_buttons(screen, sampler_buttons, small_circle_buttons, mous
                 for circle in small_circle_buttons:
                     circle.active = False
                 for j in circle_indices:
-                    small_circle_buttons[j].active = True
+                    small_circle_buttons[j].active = True #TODO túl lehet indexelni, ha a mínusz gombot nyomkodják
 
         if button.active and button.file_name_text == "":
             button.color = light
