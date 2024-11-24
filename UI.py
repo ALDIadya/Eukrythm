@@ -2,12 +2,13 @@ import pygame
 import sampler_functions
 
 class Button:
-    def __init__(self, x, y, active, width, height, color=(94, 80, 63), file_name_text=""):
+    def __init__(self, x, y, active, width, height, circle_coords=None, color=(94, 80, 63), file_name_text=""):
         self.x = x
         self.y = y
         self.active = active
         self.width = width
         self.height = height
+        self.circle_coords = circle_coords
         self.color = color
         self.file_name_text = file_name_text
         #self.chosen_circle_indices = chosen_circle_indices
@@ -103,7 +104,7 @@ def rythm_necklace_menu(screen, width, height, buttons, step_input, chosen_relat
             
     #szövegezése a Steps menünek
     step_menu_font = pygame.font.SysFont(None, 24)
-    step_menu_texts = ["Steps", "Events", "Start", "Save"]
+    step_menu_texts = ["Steps", "Events", "Start", "Save", "Load"]
     step_menu_step_number = step_input
     
     #gombok megszámozása a funkciók hozzárendeléséhez

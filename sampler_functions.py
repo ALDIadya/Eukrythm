@@ -1,5 +1,6 @@
 import pygame
 import UI
+import rythm_nl_functions
 
 def existing_sampler_buttons(screen, buttons, mouse_pos=None, click=False):
     #színek
@@ -23,15 +24,18 @@ def existing_sampler_buttons(screen, buttons, mouse_pos=None, click=False):
         else:
             button.color = dark
 
-
-def empty_sampler_button_gen(width, height): #TODO: ACTIVITY
+def empty_sampler_button_gen(width, height, small_circle_buttons):
     buttons = []
 
     for row in range(2):
         for col in range(3):
             x = width + 15 + col * 90
             y = height + 15 + row * 90
-            buttons.append(UI.Button(x=x, y=y, active=False, width=width, height=height))
+            circle_coords = []
+            if small_circle_buttons is not None:
+                for button in small_circle_buttons:
+                    circle_coords.append(button)
+            buttons.append(UI.Button(x=x, y=y, active=False, width=width, height=height, circle_coords=circle_coords))
     
     return buttons
 
@@ -113,16 +117,25 @@ def active_upload_button_message(screen, sampler_menu_button):
                 
     return upload_butt_text
         
-
-def play_button(sampler_button, sampler_menu_button, mouse_pos=None, click=False):
-    index = active_sampler_button(sampler_button, mouse_pos, click)
+def play_button(sampler_buttons, sampler_menu_buttons, mouse_pos=None, click=False):
+    index = active_sampler_button(sampler_buttons)
     
-    if sampler_menu_button[0].active and sampler_button[index].active:
+    if click and (sampler_menu_buttons.x <= mouse_pos[0] <= sampler_menu_buttons.x + sampler_menu_buttons.width) and \
+                (sampler_menu_buttons.y <= mouse_pos[1] <= sampler_menu_buttons.y + (sampler_menu_buttons.height )) and \
+                sampler_buttons[index].active:
+            pygame.mixer.music.load(sampler_buttons[index].file_name_text)
             pygame.mixer.music.play(loops=0)
-    if not sampler_menu_button[0].active:
+    if not sampler_menu_buttons.active:
             pygame.mixer.music.pause()
 
     return
 
-def delete_button():
-    pass
+def delete_button(sampler_buttons, sampler_menu_buttons, mouse_pos=None, click=False):
+    index = active_sampler_button(sampler_buttons)
+
+    if click and (sampler_menu_buttons.x <= mouse_pos[0] <= sampler_menu_buttons.x + sampler_menu_buttons.width) and \
+                (sampler_menu_buttons.y <= mouse_pos[1] <= sampler_menu_buttons.y + (sampler_menu_buttons.height )) and \
+                sampler_buttons[index].active:
+        sampler_buttons[index].file_name_text = ""
+
+    return

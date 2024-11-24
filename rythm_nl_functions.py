@@ -57,13 +57,13 @@ def r_necklace_menu_button_create(width, height):
             
     #menü
     buttons = []
-    width = (border_width) / 5
+    width = (border_width) / 6
     height = (border_height) / 10
 
-    for i in range(4): 
+    for i in range(5): 
         button_x = menu_x + i * (width + 10)
         button_y = menu_y
-        buttons.append(UI.Button(x=button_x, y=button_y, active=False, width=width, height=height))
+        buttons.append(UI.Button(x=button_x, y=button_y, active=False, width=width, height=height, circle_coords=None))
 
     return buttons
     
@@ -108,33 +108,11 @@ def existing_small_rythm_circles(screen, circles, mouse_pos=None, click=False):
 
     return 
 
-def event_marker(screen, step_number, mouse_pos, click, circles): 
-    list_counter = len(relative_primes(step_number))
-    chosen_circles = [] * list_counter
+def active_event_circle_button(circles):
+    chosen_circles = []
     
-    for circle in circles:
-        if click and intersect(circle, mouse_pos):
-            chosen_circles.append(circle)
-            pygame.draw.circle(screen, (198, 172, 143), (circle.x, circle.y), circles.radius)
+    for i, circle in circles:
+        if circle.active:
+            chosen_circles.append(i)
 
     return chosen_circles
-
-def intersect(circle, mouse_pos):
-    distance = math.sqrt((circle.x - mouse_pos[0])**2 + (circle.y - mouse_pos[1])**2)
-    return distance <= circle.radius
-
-def active_event_circle_button(small_circles):
-    active = []
-
-    for i, small_circle in enumerate(small_circles):
-        if small_circle.active:
-            active.append(i)
-    
-    """
-    - melyik számot választotta samplerbuttononként a user
-    - ellenőrizni, hogy elég pöttyöt nyomott-e le a user --> megnézni, hogy a kiválasztott event numberrel egyezik-e?!
-
-
-    """
-
-    return active
