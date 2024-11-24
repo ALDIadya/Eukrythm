@@ -2,6 +2,7 @@ import UI
 import pygame
 import rythm_nl_functions
 import sampler_functions
+import save_load
 
 def main():
 
@@ -92,7 +93,16 @@ def main():
                 if mouse_pos[0] > rythm_nl_menu_buttons[0].x + rythm_nl_menu_buttons[0].width / 2 and step_number < 12:
                     step_number += 1
                     small_circle_buttons = rythm_nl_functions.small_rythm_circles_button_gen(step_number=step_number, width = crcl_width, height=crcl_height)
-
+            
+            #save button
+            if click and (rythm_nl_menu_buttons[3].x <= mouse_pos[0] <= rythm_nl_menu_buttons[3].x + rythm_nl_menu_buttons[3].width) and (rythm_nl_menu_buttons[3].y <= mouse_pos[1] <= rythm_nl_menu_buttons[3].y + rythm_nl_menu_buttons[3].height):
+                save_load.save_button(sampler_buttons=sampler_buttons, step_number=step_number)
+            
+            #load button
+            if click and (rythm_nl_menu_buttons[4].x <= mouse_pos[0] <= rythm_nl_menu_buttons[4].x + rythm_nl_menu_buttons[4].width) and (rythm_nl_menu_buttons[4].y <= mouse_pos[1] <= rythm_nl_menu_buttons[4].y + rythm_nl_menu_buttons[4].height):
+                step_number = save_load.load_button(sampler_buttons=sampler_buttons)
+                small_circle_buttons = rythm_nl_functions.small_rythm_circles_button_gen(step_number=step_number, width = crcl_width, height=crcl_height)
+                    
             relative_primes = rythm_nl_functions.relative_primes(step_number=step_number)
             relative_prime_count_index = rythm_nl_functions.relative_prime_index(step_number=step_number, button=rythm_nl_menu_buttons[1], relative_prime_count_index=relative_prime_count_index, mouse_pos=mouse_pos, click=click)
             
@@ -106,6 +116,8 @@ def main():
             UI.rythm_circle(screen, width = crcl_width, height = crcl_height)
             rythm_nl_functions.existing_small_rythm_circles(screen, circles=small_circle_buttons, mouse_pos=mouse_pos, click=click)
             
+
+
         pygame.display.flip()
         clock.tick(60)
 
