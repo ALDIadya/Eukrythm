@@ -101,7 +101,7 @@ def input_box(screen, input_box_button, sampler_button_index, sampler_buttons, m
     color = light if input_box_button.active else dark
 
     if sampler_button_index is not None and sampler_buttons[sampler_button_index].active and input_box_button.active:
-        pygame.draw.rect(screen, (0, 0, 0), (x, y, w, h))
+        pygame.draw.rect(screen, (0, 0, 0), (x, y, w, h), border_radius=10)
         pygame.draw.rect(screen, color, (x, y, w, h), width=4, border_radius=10)
         
         if text:

@@ -19,7 +19,10 @@ def main():
     clock = pygame.time.Clock()
     screen = UI.create_screen()
     pygame.display.set_caption("Eukrythm")
-
+    background = pygame.image.load("background.png")
+    screen.blit(background, (0, 0))
+    pygame.display.update()
+    
     #kezdő pozíciók koordinátái
     crcl_width, crcl_height = 885, 310
     rnm_width, rnm_height = 670, 40 #rythm necklace menu

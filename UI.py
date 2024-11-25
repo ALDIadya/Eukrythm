@@ -23,6 +23,7 @@ def create_screen():
     screen_width = 1200
     screen_height = 600
     screen = pygame.display.set_mode((screen_width, screen_height))
+
     return screen
 
 def sampler_position(screen, width, height, buttons): #nyomógombok rajza
@@ -72,8 +73,8 @@ def sampler_menu(screen, width, height, menu_buttons, sampler_buttons, input_box
                 sampler_functions.input_box(screen, input_box_button=input_box_button, sampler_buttons=sampler_buttons, sampler_button_index=sampler_button_index, mouse_pos=None, click=False)
                 sampler_functions.active_upload_button_message(screen, sampler_menu_button=button)
 
-            else:
-                pygame.draw.rect(screen, (0, 0, 0), ((x-150), (y + 70), (w + 310), (h + 50)))
+            #else:
+                #pygame.draw.rect(screen, (0, 0, 0), ((x-150), (y + 70), (w + 310), (h + 50)))
                     
 
 
@@ -102,8 +103,8 @@ def rythm_necklace_menu(screen, width, height, buttons, step_input, chosen_relat
     menu_y = height
             
     #szövegezése a Steps menünek
-    step_menu_font = pygame.font.SysFont(None, 24)
-    step_menu_texts = ["Steps", "Events", "Start", "Save", "Load"]
+    step_menu_font = pygame.font.SysFont(None, 22)
+    step_menu_texts = ["Steps", "Events", "Start/Stop", "Save", "Load"]
     step_menu_step_number = step_input
     
     #gombok megszámozása a funkciók hozzárendeléséhez
@@ -115,10 +116,12 @@ def rythm_necklace_menu(screen, width, height, buttons, step_input, chosen_relat
 
         pygame.draw.rect(screen, dark, (x, y, w, h), 
                         border_top_left_radius = 20 if i == 0 else 0, 
+                        border_top_right_radius = 20 if i == 4 else 0,
                         border_bottom_right_radius = 10, 
                         border_bottom_left_radius=10)
         if i == 0:
-            pygame.draw.rect(screen, (0, 0, 0), (menu_x, menu_y + 100, border_width, border_height), border_radius = 20)      
+            background = pygame.image.load("rnl_background.png")
+            screen.blit(background, (menu_x, menu_y + 100, border_width, border_height))
             text_surface = step_menu_font.render(f"-   {step_input}   +", True, light)
             text_rect = text_surface.get_rect(center=(menu_x + i * (w + 10) + w / 2, menu_y + h / 2))
             screen.blit(text_surface, text_rect)

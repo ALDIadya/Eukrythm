@@ -58,7 +58,7 @@ def r_necklace_menu_button_create(width, height):
             
     #menü
     buttons = []
-    width = (border_width) / 6
+    width = (border_width) / 5.5
     height = (border_height) / 10
 
     for i in range(5): 
@@ -133,7 +133,7 @@ def start_button(width, height, is_playing, mouse_pos=None, click=False):
     menu_buttons = r_necklace_menu_button_create(width, height)
     start_button = menu_buttons[2]
     PLAYBACK_EVENT = pygame.USEREVENT + 1
-    bpm = 240
+    bpm = 360
     millis = int(1 / (bpm / 60) * 1000)
 
     if click and (start_button.x <= mouse_pos[0] <= start_button.x + start_button.width) and (start_button.y <= mouse_pos[1] <= start_button.y + start_button.height):
@@ -145,7 +145,7 @@ def start_button(width, height, is_playing, mouse_pos=None, click=False):
 
     return is_playing
 
-def note_playing(note_count, sampler_buttons, step_number): #elkapja az eventet
+def note_playing(note_count, sampler_buttons, step_number): #elkapja az eventet TODO: ha lejár a munkamenet, összefossa magát a lejátszó
     for i, button in enumerate(sampler_buttons):
         if button.file_name_text != "":
             current_note = note_count % step_number
