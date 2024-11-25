@@ -1,3 +1,5 @@
+import os.path
+
 def save_button(sampler_buttons, step_number):
     with open("save.dat", "wt") as f:
         f.write(str(step_number) + "\n")
@@ -7,6 +9,8 @@ def save_button(sampler_buttons, step_number):
     return
 
 def load_button(sampler_buttons):
+    if not os.path.exists("save.dat"):
+        raise FileNotFoundError("A mentési fájl nem található!")
     with open("save.dat", "rt") as f:
         row = f.readline().rstrip("\n")
         step_number = int(row)
