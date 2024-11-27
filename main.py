@@ -65,7 +65,7 @@ def main():
             sampler_functions.play_button(sampler_buttons=sampler_buttons, sampler_menu_buttons=sampler_menu_buttons[0], mouse_pos=mouse_pos, click=click)
             sampler_functions.delete_button(sampler_buttons=sampler_buttons, sampler_menu_buttons=sampler_menu_buttons[2], mouse_pos=mouse_pos, click=click)
 
-            if sampler_button_index is not None and sampler_menu_buttons[1].active:
+            if sampler_button_index is not None and sampler_menu_buttons[1].active: #TODO: nem íródik felül nem aktív állapotban
                 sampler_functions.input_box(screen, input_box_button=input_box_button, sampler_buttons=sampler_buttons, sampler_button_index=sampler_button_index, mouse_pos=mouse_pos, click=click)
 
             if event.type == pygame.KEYDOWN and input_box_button.active:

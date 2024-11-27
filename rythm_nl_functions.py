@@ -151,7 +151,7 @@ def note_playing(note_count, sampler_buttons, step_number): #elkapja az eventet 
             current_note = note_count % step_number
             if current_note in button.circle_indices:
                 channel = pygame.mixer.find_channel()
-                print(str(channel), current_note, i)
+                #print(str(channel), current_note, i)
                 channel.play(pygame.mixer.Sound(button.file_name_text))
 
     return note_count + 1
