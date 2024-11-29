@@ -36,7 +36,7 @@ def existing_sampler_buttons(screen, sampler_buttons, small_circle_buttons, mous
                 for circle in small_circle_buttons:
                     circle.active = False
                 for j in circle_indices:
-                    small_circle_buttons[j].active = True #TODO túl lehet indexelni, ha a mínusz gombot nyomkodják
+                    small_circle_buttons[j].active = True
 
         if button.active and button.file_name_text == "":
             button.color = light
@@ -121,17 +121,17 @@ def active_upload_button_message(screen, sampler_menu_button):
                 
     return upload_butt_text
         
-def play_button(sampler_buttons, sampler_menu_buttons, mouse_pos=None, click=False):
+def play_button(sampler_buttons, sampler_menu_buttons, mouse_pos=None, click=False): #TODO: pogram becrashel
     index = active_sampler_button(sampler_buttons)
     
     if index is not None:
         if click and (sampler_menu_buttons.x <= mouse_pos[0] <= sampler_menu_buttons.x + sampler_menu_buttons.width) and \
                     (sampler_menu_buttons.y <= mouse_pos[1] <= sampler_menu_buttons.y + (sampler_menu_buttons.height )) and \
                     sampler_buttons[index].active:
-                if os.path.exists(sampler_buttons[index].file_name_text):
-                    pygame.mixer.music.load(sampler_buttons[index].file_name_text)
-                    pygame.mixer.music.play(loops=0)
-        if not sampler_menu_buttons.active:
+            if os.path.exists(sampler_buttons[index].file_name_text):
+                pygame.mixer.music.load(sampler_buttons[index].file_name_text)
+                pygame.mixer.music.play(loops=0)
+            if not sampler_menu_buttons.active:
                 pygame.mixer.music.pause()
 
     return

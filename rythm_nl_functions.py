@@ -106,8 +106,13 @@ def existing_small_rythm_circles(screen, circles, chosen_relative_prime, mouse_p
             if circle2.active:
                 active_circles += 1
 
-        if click and (distance <= circle.radius) and active_circles < chosen_relative_prime: #TODO: nem lehet deszelektálni
-            circle.active = not circle.active  #állapot váltása
+        if click and (distance <= circle.radius): #TODO: nem lehet deszelektálni
+            if circle.active == False:
+                circle.active = True
+            if active_circles == chosen_relative_prime:
+                circle.active = False
+        
+
         
         #szín beállítása az aktív állapot szerint
         color = light if circle.active else dark
@@ -145,13 +150,12 @@ def start_button(width, height, is_playing, mouse_pos=None, click=False):
 
     return is_playing
 
-def note_playing(note_count, sampler_buttons, step_number): #elkapja az eventet TODO: ha lejár a munkamenet, összefossa magát a lejátszó
+def note_playing(note_count, sampler_buttons, step_number): #elkapja az eventet
     for i, button in enumerate(sampler_buttons):
         if button.file_name_text != "":
             current_note = note_count % step_number
             if current_note in button.circle_indices:
                 channel = pygame.mixer.find_channel()
-                #print(str(channel), current_note, i)
-                channel.play(pygame.mixer.Sound(button.file_name_text))
-
+                channel.play(pygame.mixer.Sound(button.file_name_text)) 
+                
     return note_count + 1

@@ -8,6 +8,7 @@ def main():
 
     pygame.init()
     pygame.mixer.init()
+    pygame.mixer.set_num_channels(16) #TODO: ELFOGYNAK A CSATORNÁK, ideiglenes megoldás
     
     PLAYBACK_EVENT = pygame.USEREVENT + 1
 
@@ -62,10 +63,10 @@ def main():
             sampler_button_index = sampler_functions.active_sampler_button(sampler_buttons)
             UI.sampler_menu(screen, width = rect_width, height = rect_height, menu_buttons = sampler_menu_buttons, sampler_buttons=sampler_buttons, input_box_button=input_box_button, sampler_button_index=sampler_button_index, mouse_pos=mouse_pos, click=click)
             UI.sampler_position(screen, rect_width, rect_height, sampler_buttons)
+            
             sampler_functions.play_button(sampler_buttons=sampler_buttons, sampler_menu_buttons=sampler_menu_buttons[0], mouse_pos=mouse_pos, click=click)
             sampler_functions.delete_button(sampler_buttons=sampler_buttons, sampler_menu_buttons=sampler_menu_buttons[2], mouse_pos=mouse_pos, click=click)
-
-            if sampler_button_index is not None and sampler_menu_buttons[1].active: #TODO: nem íródik felül nem aktív állapotban
+            if sampler_button_index is not None and sampler_menu_buttons[1].active: 
                 sampler_functions.input_box(screen, input_box_button=input_box_button, sampler_buttons=sampler_buttons, sampler_button_index=sampler_button_index, mouse_pos=mouse_pos, click=click)
 
             if event.type == pygame.KEYDOWN and input_box_button.active:
@@ -92,16 +93,19 @@ def main():
 
                 sampler_buttons[index].file_name_text = text
                 
-            
             #rythm neckklace-hez tartozó dolgok
             
             if click and (rythm_nl_menu_buttons[0].x <= mouse_pos[0] <= rythm_nl_menu_buttons[0].x + rythm_nl_menu_buttons[0].width) and (rythm_nl_menu_buttons[0].y <= mouse_pos[1] <= rythm_nl_menu_buttons[0].y + rythm_nl_menu_buttons[0].height):
                 if mouse_pos[0] < rythm_nl_menu_buttons[0].x + rythm_nl_menu_buttons[0].width / 2 and step_number > 2:
                     step_number -= 1
+                    for button in sampler_buttons:
+                        button.circle_indices = [] #TODO: túl lehet indexelni
                     small_circle_buttons = rythm_nl_functions.small_rythm_circles_button_gen(step_number=step_number, width = crcl_width, height=crcl_height)
                     
                 if mouse_pos[0] > rythm_nl_menu_buttons[0].x + rythm_nl_menu_buttons[0].width / 2 and step_number < 12:
                     step_number += 1
+                    for button in sampler_buttons:
+                        button.circle_indices = []
                     small_circle_buttons = rythm_nl_functions.small_rythm_circles_button_gen(step_number=step_number, width = crcl_width, height=crcl_height)
             
             #save button
@@ -131,11 +135,10 @@ def main():
             UI.rythm_circle(screen, width = crcl_width, height = crcl_height)
             rythm_nl_functions.existing_small_rythm_circles(screen, circles=small_circle_buttons, chosen_relative_prime=chosen_relative_prime, mouse_pos=mouse_pos, click=click)
             
-
-
+            
         pygame.display.flip()
         clock.tick(60)
-
+        
     pygame.quit()
 
 main()
