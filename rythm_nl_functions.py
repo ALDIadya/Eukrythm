@@ -107,8 +107,12 @@ def existing_small_rythm_circles(screen, circles, chosen_relative_prime, mouse_p
                 active_circles += 1
 
         if click and (distance <= circle.radius): #TODO: nem lehet deszelektálni
-            if circle.active == False:
-                circle.active = True
+            if active_circles < chosen_relative_prime:
+                if circle.active == False:
+                    circle.active = True
+                elif circle.active == True:
+                    circle.active = False
+                
             if active_circles == chosen_relative_prime:
                 circle.active = False
         
