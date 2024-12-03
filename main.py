@@ -117,9 +117,9 @@ def main():
                 step_number = save_load.load_button(sampler_buttons=sampler_buttons)
                 small_circle_buttons = rythm_nl_functions.small_rythm_circles_button_gen(step_number=step_number, width = crcl_width, height=crcl_height)
             
-            #start button
+            #start button TODO: csak akkor induljon el, ha elég kör van kielölve
             if click and (rythm_nl_menu_buttons[2].x <= mouse_pos[0] <= rythm_nl_menu_buttons[2].x + rythm_nl_menu_buttons[2].width) and (rythm_nl_menu_buttons[2].y <= mouse_pos[1] <= rythm_nl_menu_buttons[2].y + rythm_nl_menu_buttons[2].height):
-                is_playing = rythm_nl_functions.start_button(width=rnm_width, height=rnm_height, is_playing=is_playing, mouse_pos=mouse_pos, click=click)
+                is_playing = rythm_nl_functions.start_button(is_playing=is_playing, sampler_buttons=sampler_buttons, relative_prime=chosen_relative_prime)
             
 
             relative_primes = rythm_nl_functions.relative_primes(step_number=step_number)

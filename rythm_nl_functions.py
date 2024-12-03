@@ -134,19 +134,26 @@ def active_event_circle_button(circles, sampler_buttons):
 
     return 
 
-def start_button(width, height, is_playing, mouse_pos=None, click=False):
-    menu_buttons = r_necklace_menu_button_create(width, height)
-    start_button = menu_buttons[2]
+def is_equal(sampler_buttons, relative_prime):
+    for button in sampler_buttons:
+        if (button.file_name_text != "") and (button.circle_indices is not None):
+                if len(button.circle_indices) != relative_prime:
+                    return False
+    return True
+
+def start_button(is_playing, sampler_buttons, relative_prime):
     PLAYBACK_EVENT = pygame.USEREVENT + 1
-    bpm = 360
+    bpm = 480
     millis = int(1 / (bpm / 60) * 1000)
 
-    if click and (start_button.x <= mouse_pos[0] <= start_button.x + start_button.width) and (start_button.y <= mouse_pos[1] <= start_button.y + start_button.height):
-        if is_playing == False:
+    if is_playing == False:
+        if is_equal(sampler_buttons, relative_prime):
+            is_playing = True
             pygame.time.set_timer(PLAYBACK_EVENT, millis)
-        else:
-            pygame.time.set_timer(PLAYBACK_EVENT, 0)
-        is_playing = not is_playing
+
+    else:
+        pygame.time.set_timer(PLAYBACK_EVENT, 0)
+        is_playing = False  
 
     return is_playing
 
